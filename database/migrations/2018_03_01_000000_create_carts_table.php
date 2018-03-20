@@ -9,14 +9,14 @@ class CreateCartsTable extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
 
         Schema::create('cart_items', function (Blueprint $table) {
             $table->unsignedInteger('id');
-            $table->string('name')->nullable();
             $table->unsignedInteger('quentity');
-            $table->unsignedInteger('spec_id')->nullable();
             $table->unsignedInteger('cart_id');
 
             $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade');

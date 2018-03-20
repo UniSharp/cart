@@ -7,7 +7,7 @@ class CartItemCollection extends Collection
 {
     public function __construct($items = [])
     {
-        $items = array_filter($items, function ($item) {
+        $items = array_filter($this->getArrayableItems($items), function ($item) {
             return $this->validate($item);
         });
 

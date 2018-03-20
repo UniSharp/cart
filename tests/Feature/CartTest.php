@@ -17,7 +17,7 @@ class CartTest extends TestCase
             'price' => 4,
         ]);
 
-        $cart = Cart::create()->add($product->specs->first(), 20);
+        $cart = Cart::create()->add($product->specs->first(), 20)->save();
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
@@ -32,11 +32,26 @@ class CartTest extends TestCase
             'price' => 4,
         ]);
 
-        $cart = Cart::create()->add($product, 20);
+        $cart = Cart::create()->add($product, 20)->save();
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
             'quentity' => 20,
+        ]);
+    }
+
+    public function testAddBySpecId()
+    {
+        $product = Product::create([
+            'name' => 'abc',
+            'price' => 4,
+        ]);
+
+        $cart = Cart::create()->add($product->specs->first()->id, 20)->save();
+        $this->assertDatabaseHas('cart_items', [
+            'cart_id' => $cart->getCartInstance()->id,
+            'id' =>  $product->getSpecifiedSpec()->id,
+            'quentity' => 20 ,
         ]);
     }
 
@@ -47,8 +62,8 @@ class CartTest extends TestCase
             'price' => 4,
         ]);
 
-        $cart = Cart::create()->add($product->specs->first(), 20);
-        $cart->update($product->getSpecifiedSpec(), 9);
+        $cart = Cart::create()->add($product->specs->first(), 20)->save();
+        $cart->update($product->getSpecifiedSpec(), 9)->save();
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
@@ -64,7 +79,7 @@ class CartTest extends TestCase
         ]);
 
         $cart = Cart::create()->add($product, 20);
-        $cart->update($product->getSpecifiedSpec(), 9);
+        $cart->update($product->getSpecifiedSpec(), 9)->save();
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
@@ -81,7 +96,7 @@ class CartTest extends TestCase
 
         $cart = Cart::create()->add($product, 20);
 
-        $cart->remove($product->specs()->first());
+        $cart->remove($product->specs()->first())->save();
         $this->assertDatabaseMissing('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
