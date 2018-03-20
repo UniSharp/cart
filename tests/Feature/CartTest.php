@@ -1,5 +1,5 @@
 <?php
-namespace UniSharp\Cart\Tests\Unit;
+namespace UniSharp\Cart\Tests\Feature;
 
 use UniSharp\Cart\Cart;
 use UniSharp\Cart\Tests\TestCase;
@@ -18,7 +18,7 @@ class CartTest extends TestCase
         ]);
 
         $cart = Cart::create()->add($product->specs->first(), 20);
-        $this->assertDatabaseHas('items', [
+        $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
             'quentity' => 20 ,
@@ -33,7 +33,7 @@ class CartTest extends TestCase
         ]);
 
         $cart = Cart::create()->add($product, 20);
-        $this->assertDatabaseHas('items', [
+        $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
             'quentity' => 20,
@@ -49,7 +49,7 @@ class CartTest extends TestCase
 
         $cart = Cart::create()->add($product->specs->first(), 20);
         $cart->update($product->getSpecifiedSpec(), 9);
-        $this->assertDatabaseHas('items', [
+        $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
             'quentity' => 9,
@@ -65,7 +65,7 @@ class CartTest extends TestCase
 
         $cart = Cart::create()->add($product, 20);
         $cart->update($product->getSpecifiedSpec(), 9);
-        $this->assertDatabaseHas('items', [
+        $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
             'quentity' => 9,
@@ -82,7 +82,7 @@ class CartTest extends TestCase
         $cart = Cart::create()->add($product, 20);
 
         $cart->remove($product->specs()->first());
-        $this->assertDatabaseMissing('items', [
+        $this->assertDatabaseMissing('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
         ]);

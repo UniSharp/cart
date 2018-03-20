@@ -12,7 +12,7 @@ class CreateCartsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('cart_items', function (Blueprint $table) {
             $table->unsignedInteger('id');
             $table->string('name')->nullable();
             $table->unsignedInteger('quentity');
@@ -27,7 +27,7 @@ class CreateCartsTable extends Migration
 
     public function down()
     {
-        Schema::drop('items');
+        Schema::drop('cart_items');
         Schema::drop('carts');
     }
 }
