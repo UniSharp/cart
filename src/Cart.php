@@ -49,11 +49,17 @@ class Cart
 
     public function add($model, $quentity)
     {
-        $this->items->push(app(CartItem::class)->fill([
-            'id' => $this->getSpecId($model),
-            'cart_id' => $this->cart->id,
-            'quentity' => $quentity,
-        ]));
+        if ($this->items->where('id', $this->getSpecId($model))->count() > 0) {
+            $this->items->where('id', $this->getSpecId($model))->each(function ($item) use ($model, $quentity) {
+                $item->quentity += $quentity;
+            });
+        } else {
+            $this->items->push(app(CartItem::class)->fill([
+                'id' => $this->getSpecId($model),
+                'cart_id' => $this->cart->id,
+                'quentity' => $quentity,
+            ]));
+        }
 
         return $this;
     }

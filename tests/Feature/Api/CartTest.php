@@ -40,4 +40,65 @@ class CartTest extends TestCase
             collect($response->json()['items'])->first()['quentity']
         );
     }
+
+    public function testAdd()
+    {
+        $product = Product::create([
+            'name' => 'ProductA',
+            'price' => 50
+        ]);
+
+        $cart = Cart::create()->getCartInstance();
+
+        $response = $this->putJson("api/v1/carts/{$cart->id}", [
+            'specs' =>  [
+                [
+                    'id' => $product->specs->first()->id,
+                    'quentity' => 20
+                ]
+            ]
+        ]);
+
+        $this->assertEquals(
+            $product->specs->first()->id,
+            collect($response->json()['items'])->first()['id']
+        );
+
+        $this->assertEquals(
+            20,
+            collect($response->json()['items'])->first()['quentity']
+        );
+    }
+
+    public function testPutAndAutoMerge()
+    {
+        $product = Product::create([
+            'name' => 'ProductA',
+            'price' => 50
+        ]);
+
+        $cart = Cart::create()->add(
+            $product->specs->first()->id,
+            10
+        )->save()->getCartInstance();
+
+        $response = $this->putJson("api/v1/carts/{$cart->id}", [
+            'specs' =>  [
+                [
+                    'id' => $product->specs->first()->id,
+                    'quentity' => 20
+                ]
+            ]
+        ]);
+
+        $this->assertEquals(
+            $product->specs->first()->id,
+            collect($response->json()['items'])->first()['id']
+        );
+
+        $this->assertEquals(
+            30,
+            collect($response->json()['items'])->first()['quentity']
+        );
+    }
 }
