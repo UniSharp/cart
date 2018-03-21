@@ -95,6 +95,12 @@ class Cart
         return $this;
     }
 
+    public function clean()
+    {
+        $this->items = CartItemCollection::make();
+        return $this;
+    }
+
     protected function getSpecId($model)
     {
         switch (true) {

@@ -42,6 +42,44 @@ class CartTest extends TestCase
         );
     }
 
+    public function testRefresh()
+    {
+        $product = Product::create([
+            'name' => 'ProductA',
+            'price' => 50
+        ]);
+
+        $product2 = Product::create([
+            'name' => 'ProductA',
+            'price' => 50
+        ]);
+
+        $cart = Cart::create()->add(
+            $product->specs->first()->id,
+            10
+        )->save()->getCartInstance();
+
+        $response = $this->postJson("/api/v1/carts/{$cart->id}", [
+            'specs' => [
+                [
+                    'id' => $product2->specs->first()->id,
+                    'quentity' => 5
+                ]
+            ]
+        ]);
+
+        $this->assertDatabaseMissing('cart_items', [
+            'cart_id' => $cart->id,
+            'id' => $product->specs->first()->id,
+        ]);
+
+        $this->assertDatabaseHas('cart_items', [
+            'cart_id' => $cart->id,
+            'id' => $product2->specs->first()->id,
+            'quentity' => 5
+        ]);
+    }
+
     public function testAdd()
     {
         $product = Product::create([
