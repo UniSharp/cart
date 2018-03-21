@@ -31,6 +31,22 @@ class CartsController extends Controller
         return $cart->getCartInstance()->load('items');
     }
 
+    public function delete(CartModel $cart, $item)
+    {
+        Cart::create($cart)->remove($item)->save();
+        return [
+            'success' => true
+        ];
+    }
+
+    public function destroy(CartModel $cart)
+    {
+        $cart->delete();
+        return [
+            'success' => true
+        ];
+    }
+
     public function show(CartMdoel $cart)
     {
         return $cart->load('items');

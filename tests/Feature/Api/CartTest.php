@@ -101,4 +101,52 @@ class CartTest extends TestCase
             collect($response->json()['items'])->first()['quentity']
         );
     }
+
+    public function testRemoveItem()
+    {
+        $product = Product::create([
+            'name' => 'ProductA',
+            'price' => 50
+        ]);
+
+        $cart = Cart::create()->add(
+            $product->specs->first()->id,
+            10
+        )->save()->getCartInstance();
+
+        $this->assertDatabaseHas('cart_items', [
+            'cart_id' => $cart->id,
+            'id' => $product->specs->first()->id
+        ]);
+        $response = $this->delete("api/v1/carts/{$cart->id}/{$product->specs->first()->id}");
+        $response->assertSuccessful();
+        $this->assertDatabaseMissing('cart_items', [
+            'cart_id' => $cart->id,
+            'id' => $product->specs->first()->id
+        ]);
+    }
+
+    public function testDeleteCart()
+    {
+        $product = Product::create([
+            'name' => 'ProductA',
+            'price' => 50
+        ]);
+
+        $cart = Cart::create()->add(
+            $product->specs->first()->id,
+            10
+        )->save()->getCartInstance();
+
+        $this->assertDatabaseHas('cart_items', [
+            'cart_id' => $cart->id,
+            'id' => $product->specs->first()->id
+        ]);
+
+        $response = $this->delete("api/v1/carts/{$cart->id}");
+        $response->assertSuccessful();
+        $this->assertDatabaseMissing('carts', [
+            'id' => $cart->id,
+        ]);
+    }
 }
