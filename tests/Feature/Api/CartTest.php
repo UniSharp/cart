@@ -52,7 +52,7 @@ class CartTest extends TestCase
         $cart = Cart::create()->getCartInstance();
 
         $response = $this->putJson("api/v1/carts/{$cart->id}", [
-            'specs' =>  [
+            'specs' => [
                 [
                     'id' => $product->specs->first()->id,
                     'quentity' => 20
@@ -84,7 +84,7 @@ class CartTest extends TestCase
         )->save()->getCartInstance();
 
         $response = $this->putJson("api/v1/carts/{$cart->id}", [
-            'specs' =>  [
+            'specs' => [
                 [
                     'id' => $product->specs->first()->id,
                     'quentity' => 20
@@ -117,7 +117,7 @@ class CartTest extends TestCase
         )->save()->getCartInstance();
 
         $response = $this->putJson("api/v1/carts/{$cart->id}", [
-            'specs' =>  [
+            'specs' => [
                 [
                     'id' => $product->specs->first()->id,
                     'quentity' => 20
