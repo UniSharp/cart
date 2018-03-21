@@ -3,6 +3,7 @@ namespace UniSharp\Cart\Tests\Feature\Api;
 
 use UniSharp\Cart\Cart;
 use UniSharp\Cart\Tests\TestCase;
+use Illuminate\Foundation\Auth\User;
 use UniSharp\Cart\Tests\Fixtures\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -100,6 +101,34 @@ class CartTest extends TestCase
             30,
             collect($response->json()['items'])->first()['quentity']
         );
+    }
+
+    public function testPutAndAppendUser()
+    {
+        $this->actingAs($user = User::create());
+        $product = Product::create([
+            'name' => 'ProductA',
+            'price' => 50
+        ]);
+
+        $cart = Cart::create()->add(
+            $product->specs->first()->id,
+            10
+        )->save()->getCartInstance();
+
+        $response = $this->putJson("api/v1/carts/{$cart->id}", [
+            'specs' =>  [
+                [
+                    'id' => $product->specs->first()->id,
+                    'quentity' => 20
+                ]
+            ]
+        ]);
+
+        $this->assertDatabaseHas('carts', [
+            'id' => $cart->id,
+            'user_id' => $user->id
+        ]);
     }
 
     public function testRemoveItem()

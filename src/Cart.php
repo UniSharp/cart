@@ -8,6 +8,8 @@ use UniSharp\Buyable\Traits\Buyable;
 use Illuminate\Database\Eloquent\Model;
 use UniSharp\Cart\Model\Cart as CartModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Foundation\Auth\User;
+use InvalidArgumentException;
 
 class Cart
 {
@@ -23,6 +25,15 @@ class Cart
     public static function create(?CartModel $model = null)
     {
         return new static($model ?? CartModel::create());
+    }
+
+    public function assign(User $user)
+    {
+        if ($this->cart->user_id && $this->cart->user_id != $user->id) {
+            throw new InvalidArgumentException();
+        }
+        
+        $this->cart->user_id = $user->id;
     }
 
     public function getCartInstance()
@@ -44,6 +55,8 @@ class Cart
         $this->items->each(function ($item) {
             $item->save();
         });
+
+        $this->cart->save();
         return $this;
     }
 

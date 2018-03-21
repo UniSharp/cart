@@ -27,6 +27,10 @@ class CartsController extends Controller
             $cart->add($spec['id'], $spec['quentity']);
         });
 
+        if (auth()->user()) {
+            $cart->assign(auth()->user());
+        }
+
         $cart->save();
         return $cart->getCartInstance()->load('items');
     }
