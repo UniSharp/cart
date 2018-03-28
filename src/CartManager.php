@@ -22,7 +22,7 @@ class CartManager
         $this->items = CartItemCollection::make($this->cart->items);
     }
 
-    public static function create(?CartModel $model = null)
+    public static function make(?CartModel $model = null)
     {
         return new static($model ?? CartModel::create());
     }

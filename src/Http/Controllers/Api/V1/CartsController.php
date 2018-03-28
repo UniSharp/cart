@@ -12,7 +12,7 @@ class CartsController extends Controller
 {
     public function store(StoreCartRequest $request)
     {
-        $cart = CartManager::create();
+        $cart = CartManager::make();
         collect($request->specs)->each(function ($spec) use ($cart) {
             $cart->add($spec['id'], $spec['quentity']);
         });
@@ -23,7 +23,7 @@ class CartsController extends Controller
 
     public function update(UpdateCartRequest $request, CartModel $cart)
     {
-        $cart = CartManager::create($cart);
+        $cart = CartManager::make($cart);
         collect($request->specs)->each(function ($spec) use ($cart) {
             $cart->add($spec['id'], $spec['quentity']);
         });
@@ -38,7 +38,7 @@ class CartsController extends Controller
 
     public function refresh(RefreshCartRequest $request, CartModel $cart)
     {
-        $cart = CartManager::create($cart)->clean();
+        $cart = CartManager::make($cart)->clean();
 
         collect($request->specs)->each(function ($spec) use ($cart) {
             $cart->add($spec['id'], $spec['quentity']);
@@ -54,7 +54,7 @@ class CartsController extends Controller
 
     public function delete(CartModel $cart, $item)
     {
-        CartManager::create($cart)->remove($item)->save();
+        CartManager::make($cart)->remove($item)->save();
         return [
             'success' => true
         ];

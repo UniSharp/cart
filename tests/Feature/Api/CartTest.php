@@ -54,7 +54,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = CartManager::create()->add(
+        $cart = CartManager::make()->add(
             $product->specs->first()->id,
             10
         )->save()->getCartInstance();
@@ -87,7 +87,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = CartManager::create()->getCartInstance();
+        $cart = CartManager::make()->getCartInstance();
 
         $response = $this->putJson("api/v1/carts/{$cart->id}", [
             'specs' => [
@@ -116,7 +116,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = CartManager::create()->add(
+        $cart = CartManager::make()->add(
             $product->specs->first()->id,
             10
         )->save()->getCartInstance();
@@ -149,7 +149,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = CartManager::create()->add(
+        $cart = CartManager::make()->add(
             $product->specs->first()->id,
             10
         )->save()->getCartInstance();
@@ -176,7 +176,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = CartManager::create()->add(
+        $cart = CartManager::make()->add(
             $product->specs->first()->id,
             10
         )->save()->getCartInstance();
@@ -200,7 +200,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = CartManager::create()->add(
+        $cart = CartManager::make()->add(
             $product->specs->first()->id,
             10
         )->save()->getCartInstance();
