@@ -1,7 +1,7 @@
 <?php
 namespace UniSharp\Cart\Tests\Feature\Api;
 
-use UniSharp\Cart\Cart;
+use UniSharp\Cart\CartManager;
 use UniSharp\Cart\Tests\TestCase;
 use Illuminate\Foundation\Auth\User;
 use UniSharp\Cart\Tests\Fixtures\Product;
@@ -54,7 +54,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = Cart::create()->add(
+        $cart = CartManager::create()->add(
             $product->specs->first()->id,
             10
         )->save()->getCartInstance();
@@ -87,7 +87,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = Cart::create()->getCartInstance();
+        $cart = CartManager::create()->getCartInstance();
 
         $response = $this->putJson("api/v1/carts/{$cart->id}", [
             'specs' => [
@@ -116,7 +116,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = Cart::create()->add(
+        $cart = CartManager::create()->add(
             $product->specs->first()->id,
             10
         )->save()->getCartInstance();
@@ -149,7 +149,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = Cart::create()->add(
+        $cart = CartManager::create()->add(
             $product->specs->first()->id,
             10
         )->save()->getCartInstance();
@@ -176,7 +176,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = Cart::create()->add(
+        $cart = CartManager::create()->add(
             $product->specs->first()->id,
             10
         )->save()->getCartInstance();
@@ -200,7 +200,7 @@ class CartTest extends TestCase
             'price' => 50
         ]);
 
-        $cart = Cart::create()->add(
+        $cart = CartManager::create()->add(
             $product->specs->first()->id,
             10
         )->save()->getCartInstance();

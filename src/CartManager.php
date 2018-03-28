@@ -3,15 +3,15 @@ namespace UniSharp\Cart;
 
 use ReflectionClass;
 use UniSharp\Buyable\Models\Spec;
-use UniSharp\Cart\Model\CartItem;
+use UniSharp\Cart\Models\CartItem;
 use UniSharp\Buyable\Traits\Buyable;
 use Illuminate\Database\Eloquent\Model;
-use UniSharp\Cart\Model\Cart as CartModel;
+use UniSharp\Cart\Models\Cart as CartModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User;
 use InvalidArgumentException;
 
-class Cart
+class CartManager
 {
     protected $cart;
     protected $items;

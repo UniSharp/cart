@@ -1,7 +1,7 @@
 <?php
 namespace UniSharp\Cart\Contracts;
 
-use UniSharp\Cart\Model\CartItem;
+use UniSharp\Cart\Models\CartItem;
 
 interface Validation
 {

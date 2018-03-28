@@ -1,5 +1,5 @@
 <?php
-namespace UniSharp\Cart\Model;
+namespace UniSharp\Cart\Models;
 
 use UniSharp\Buyable\Models\Spec;
 use Illuminate\Database\Eloquent\Model;

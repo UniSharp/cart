@@ -1,7 +1,7 @@
 <?php
-namespace UniSharp\Cart\Model;
+namespace UniSharp\Cart\Models;
 
-use UniSharp\Cart\Model\CartItem;
+use UniSharp\Cart\Models\CartItem;
 use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model

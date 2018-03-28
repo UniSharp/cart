@@ -1,8 +1,8 @@
 <?php
 namespace UniSharp\Cart\Tests\Feature;
 
-use UniSharp\Cart\Cart;
-use UniSharp\Cart\Model\CartItem;
+use UniSharp\Cart\CartManager;
+use UniSharp\Cart\Models\CartItem;
 use UniSharp\Cart\Tests\TestCase;
 use UniSharp\Cart\CartItemCollection;
 use UniSharp\Cart\Tests\Fixtures\Product;

@@ -1,9 +1,9 @@
 <?php
 namespace UniSharp\Cart\Http\Controllers\Api\V1;
 
-use UniSharp\Cart\Cart;
+use UniSharp\Cart\CartManager;
 use Illuminate\Routing\Controller;
-use UniSharp\Cart\Model\Cart as CartModel;
+use UniSharp\Cart\Models\Cart as CartModel;
 use UniSharp\Cart\Http\Requests\StoreCartRequest;
 use UniSharp\Cart\Http\Requests\UpdateCartRequest;
 use UniSharp\Cart\Http\Requests\RefreshCartRequest;
@@ -12,7 +12,7 @@ class CartsController extends Controller
 {
     public function store(StoreCartRequest $request)
     {
-        $cart = Cart::create();
+        $cart = CartManager::create();
         collect($request->specs)->each(function ($spec) use ($cart) {
             $cart->add($spec['id'], $spec['quentity']);
         });
@@ -23,7 +23,7 @@ class CartsController extends Controller
 
     public function update(UpdateCartRequest $request, CartModel $cart)
     {
-        $cart = Cart::create($cart);
+        $cart = CartManager::create($cart);
         collect($request->specs)->each(function ($spec) use ($cart) {
             $cart->add($spec['id'], $spec['quentity']);
         });
@@ -38,7 +38,7 @@ class CartsController extends Controller
 
     public function refresh(RefreshCartRequest $request, CartModel $cart)
     {
-        $cart = Cart::create($cart)->clean();
+        $cart = CartManager::create($cart)->clean();
 
         collect($request->specs)->each(function ($spec) use ($cart) {
             $cart->add($spec['id'], $spec['quentity']);
@@ -54,7 +54,7 @@ class CartsController extends Controller
 
     public function delete(CartModel $cart, $item)
     {
-        Cart::create($cart)->remove($item)->save();
+        CartManager::create($cart)->remove($item)->save();
         return [
             'success' => true
         ];
