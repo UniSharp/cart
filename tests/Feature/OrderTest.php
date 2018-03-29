@@ -29,7 +29,21 @@ class OrderTest extends TestCase
         Pricing::shouldReceive('apply')->andReturnSelf();
         Pricing::shouldReceive('getTotal')->andReturn(100);
 
-        $manager = OrderManager::make()->checkout($cart->getItems())->save();
+        $manager = OrderManager::make()->checkout($cart->getItems(), [
+            'receiver' => [
+                'name' => 'User A',
+                'address' => 'A 區 B 縣',
+                'phone' => '0912345678',
+                'email' => 'fk@example.com'
+            ],
+            'buyer' => [
+                'name' => 'User A',
+                'address' => 'A 區 B 縣',
+                'phone' => '0912345678',
+                'email' => 'fk@example.com'
+            ]
+        ]);
+
         $this->assertDatabaseHas('orders', [
             'id' => $manager->getOrderInstance()->id,
             'total_price' => 100,
@@ -41,6 +55,22 @@ class OrderTest extends TestCase
             'spec' => 'default',
             'sku' => 'B-1',
             'quentity' => 1
+        ]);
+
+        $this->assertDatabaseHas('information', [
+            'type' => 'receiver',
+            'name' => 'User A',
+            'address' => 'A 區 B 縣',
+            'phone' => '0912345678',
+            'email' => 'fk@example.com'
+        ]);
+
+        $this->assertDatabaseHas('information', [
+            'type' => 'buyer',
+            'name' => 'User A',
+            'address' => 'A 區 B 縣',
+            'phone' => '0912345678',
+            'email' => 'fk@example.com'
         ]);
     }
 }

@@ -3,6 +3,7 @@ namespace UniSharp\Cart;
 
 use UniSharp\Cart\Models\Order;
 use UniSharp\Cart\Models\OrderItem;
+use UniSharp\Cart\Models\Information;
 use UniSharp\Pricing\Facades\Pricing;
 
 class OrderManager
@@ -33,14 +34,44 @@ class OrderManager
         return $this;
     }
 
-    public function checkout(CartItemCollection $items)
+    public function checkout(CartItemCollection $items, array $informations = [])
     {
         $this->order->sn = $this->order->sn ?? call_user_func(static::$serialNumberResolver);
         $this->order->total_price = $this->getPricing($items)->getTotal();
+        $this->order->save();
 
-        $orderItems = $items->map(function ($item) {
-            $orderItem = new OrderItem;
-            $orderItem->fill($item->only('quentity'));
+        $this->saveCartItems($items);
+
+        if (array_key_exists('receiver', $informations)) {
+            $this->saveReceiverInformation($informations['receiver']);
+        }
+
+        if (array_key_exists('buyer', $informations)) {
+            $this->saveBuyerInformation($informations['buyer']);
+        }
+
+        return $this;
+    }
+
+    public function getPricing($items)
+    {
+        return Pricing::setItems($items)->apply($this->modules);
+    }
+
+    public static function setSerialNumberResolver($resolver)
+    {
+        static::$serialNumberResolver = $resolver;
+    }
+
+    public static function setPricingResolver($resolver)
+    {
+        static::$pricingResolver = $resolver;
+    }
+
+    protected function saveCartItems(CartItemCollection $items)
+    {
+        $items->each(function ($item) {
+            $orderItem = new OrderItem($item->only('quentity'));
             $input = collect($item->spec->getAttributes())
                 ->except('id', 'created_at', 'updated_at', 'buyable_type', 'buyable_id', 'stock')
                 ->mapWithKeys(function ($value, $key) {
@@ -53,24 +84,17 @@ class OrderManager
         return $this;
     }
 
-    public function getPricing($items)
+    protected function saveReceiverInformation(array $information)
     {
-        return Pricing::setItems($items)->apply($this->modules);
-    }
-
-    public function save()
-    {
-        $this->order->save();
+        $information['type'] = 'receiver';
+        $info = $this->order->receiverInformation()->create($information);
         return $this;
     }
 
-    public static function setSerialNumberResolver($resolver)
+    protected function saveBuyerInformation(array $information)
     {
-        static::$serialNumberResolver = $resolver;
-    }
-
-    public static function setPricingResolver($resolver)
-    {
-        static::$pricingResolver = $resolver;
+        $information['type'] = 'buyer';
+        $this->order->buyerInformation()->create($information);
+        return $this;
     }
 }
