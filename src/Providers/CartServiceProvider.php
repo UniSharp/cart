@@ -1,6 +1,7 @@
 <?php
 namespace UniSharp\Cart\Providers;
 
+use UniSharp\Cart\OrderManager;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,5 +17,9 @@ class CartServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace('UniSharp\Cart\Http\Controllers')
             ->group(__DIR__.'/../../routes/api.php');
+
+        OrderManager::setSerialNumberResolver(function () {
+            return uniqid();
+        });
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f064a17b5238721d1e328b7de28a0d1",
+    "content-hash": "eb9f70c76a92a1a66b0a5e5f674be6f0",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -1874,6 +1874,67 @@
                 "category"
             ],
             "time": "2018-03-14T10:19:42+00:00"
+        },
+        {
+            "name": "unisharp/pricing",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/UniSharp/pricing.git",
+                "reference": "941fcbe4b819563c983e75f936807c5a9ed9bc0c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/UniSharp/pricing/zipball/941fcbe4b819563c983e75f936807c5a9ed9bc0c",
+                "reference": "941fcbe4b819563c983e75f936807c5a9ed9bc0c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "codedungeon/phpunit-result-printer": "^0.6.0",
+                "mockery/mockery": "^0.9.4",
+                "orchestra/database": "~3.6.0",
+                "orchestra/testbench": "~3.6.0",
+                "phpunit/phpunit": "^7.0",
+                "sebastian/diff": "^3.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "UniSharp\\Pricing\\Providers\\PricingServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "UniSharp\\Pricing\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "UniSharp",
+                    "email": "opensource@unisharp.com",
+                    "homepage": "https://www.unisharp.com"
+                }
+            ],
+            "description": "A modularized pricing package for Buyable.",
+            "keywords": [
+                "buyable",
+                "laravel",
+                "pricing"
+            ],
+            "time": "2018-03-27 07:05:19"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -3878,7 +3939,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "unisharp/pricing": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

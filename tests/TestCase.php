@@ -1,9 +1,10 @@
 <?php
 namespace UniSharp\Cart\Tests;
 
+use UniSharp\Pricing\PricingServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use UniSharp\Buyable\Providers\BuyableServiceProvider;
 use UniSharp\Cart\Providers\CartServiceProvider;
+use UniSharp\Buyable\Providers\BuyableServiceProvider;
 use UniSharp\Cart\Tests\Fixtures\Providers\TestingServiceProvider;
 
 abstract class TestCase extends Orchestra
@@ -22,6 +23,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            PricingServiceProvider::class,
             BuyableServiceProvider::class,
             CartServiceProvider::class,
             TestingServiceProvider::class,
