@@ -13,19 +13,22 @@ class Order extends Model implements OrderContract
 {
     use CastsEnums;
 
-    protected $enums = [
-    ];
-    public function __construct()
+    protected $fillable = ['status', 'sn', 'total_price', 'shipping_status'];
+
+    protected $enums = [];
+
+    public function __construct(array $attributes = [])
     {
         $this->enums = [
             'status' => get_class(resolve(OrderStatusContract::class)),
             'shipping_status' => get_class(resolve(ShippingStatusContract::class)),
         ];
+        return parent::__construct($attributes);
     }
 
     public function items()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(get_class(resolve(OrderItem::class)));
     }
 
     public function buyerInformation()

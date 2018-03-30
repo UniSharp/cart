@@ -5,13 +5,20 @@ use UniSharp\Cart\CartManager;
 use UniSharp\Cart\Models\Cart;
 use UniSharp\Cart\OrderManager;
 use Illuminate\Routing\Controller;
-use UniSharp\Cart\Models\Order as OrderModel;
+use UniSharp\Cart\Contracts\OrderContract;
 use UniSharp\Cart\Http\Requests\StoreOrderRequest;
 use UniSharp\Cart\Http\Requests\UpdateOrderRequest;
 use UniSharp\Cart\Http\Requests\RefreshOrderRequest;
 
 class OrdersController extends Controller
 {
+    public function index()
+    {
+        return app(OrderContract::class)
+            ->with('items', 'receiverInformation', 'buyerInformation')
+            ->paginate();
+    }
+
     public function store(StoreOrderRequest $request)
     {
         return OrderManager::make()->checkout(

@@ -8,6 +8,6 @@ class OrderStatus extends Enum implements OrderStatusContract
 {
     const __default = self::PENDDING;
     const PENDDING = 0;
-    const COMPLETE = 1;
-    const CANCEL = 2;
+    const COMPLETED = 1;
+    const CANCELED = 2;
 }

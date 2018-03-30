@@ -2,14 +2,16 @@
 namespace UniSharp\Cart\Tests\Feature\Api;
 
 use UniSharp\Cart\CartManager;
+use UniSharp\Cart\Models\Order;
 use UniSharp\Cart\OrderManager;
 use UniSharp\Cart\Tests\TestCase;
+use UniSharp\Cart\Models\OrderItem;
 use Illuminate\Foundation\Auth\User;
 use UniSharp\Cart\Enums\OrderStatus;
 use UniSharp\Cart\Tests\Fixtures\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CartTest extends TestCase
+class OrderTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -81,21 +83,32 @@ class CartTest extends TestCase
         ]);
     }
 
-    public function testRefresh()
+    public function testList()
     {
+        Order::create([
+            'sn' => 'ABC-1',
+            'status' => OrderStatus::COMPLETED,
+            'total_price' => 100,
+        ])->items()->save(OrderItem::create([
+            'spec' => 'default',
+            'price' => 100
+        ]));
+
+        $response = $this->get('/api/v1/orders');
+        $response->assertJsonStructure([
+            'data' => [
+                '*' =>[
+                    'id',
+                    'status',
+                    'shipping_status',
+                    'items',
+                    'receiver_information',
+                    'buyer_information',
+                ]
+            ]
+        ]);
     }
 
-    public function testAdd()
-    {
-    }
-
-    public function testPutAndAutoMerge()
-    {
-    }
-
-    public function testPutAndAppendUser()
-    {
-    }
 
     public function testRemoveItem()
     {
