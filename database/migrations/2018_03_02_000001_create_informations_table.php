@@ -15,7 +15,7 @@ class CreateInformationsTable extends Migration
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
             $table->enum('type', ['receiver', 'buyer']);
-            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->timestamps();
         });
     }

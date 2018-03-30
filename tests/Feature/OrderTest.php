@@ -4,9 +4,10 @@ namespace UniSharp\Cart\Tests\Feature;
 use UniSharp\Cart\CartManager;
 use UniSharp\Cart\OrderManager;
 use UniSharp\Cart\Tests\TestCase;
+use UniSharp\Cart\Enums\OrderStatus;
+use UniSharp\Pricing\Facades\Pricing;
 use UniSharp\Cart\Tests\Fixtures\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use UniSharp\Pricing\Facades\Pricing;
 
 class OrderTest extends TestCase
 {
@@ -46,6 +47,7 @@ class OrderTest extends TestCase
 
         $this->assertDatabaseHas('orders', [
             'id' => $manager->getOrderInstance()->id,
+            'status' => OrderStatus::PENDDING,
             'total_price' => 100,
             'sn' => 'ABC-1'
         ]);

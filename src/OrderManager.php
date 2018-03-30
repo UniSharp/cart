@@ -5,6 +5,8 @@ use UniSharp\Cart\Models\Order;
 use UniSharp\Cart\Models\OrderItem;
 use UniSharp\Cart\Models\Information;
 use UniSharp\Pricing\Facades\Pricing;
+use UniSharp\Cart\Contracts\OrderContract;
+use UniSharp\Cart\Contracts\OrderStatusContract;
 
 class OrderManager
 {
@@ -18,9 +20,9 @@ class OrderManager
         $this->order = $order;
     }
 
-    public static function make(?Order $order = null)
+    public static function make(?OrderContract $order = null)
     {
-        return new static($order ?? new Order);
+        return new static($order ?? app(OrderContract::class));
     }
 
     public function getOrderInstance()
@@ -36,6 +38,7 @@ class OrderManager
 
     public function checkout(CartItemCollection $items, array $informations = [])
     {
+        $this->order->status = app(OrderStatusContract::class);
         $this->order->sn = $this->order->sn ?? call_user_func(static::$serialNumberResolver);
         $this->order->total_price = $this->getPricing($items)->getTotal();
         $this->order->save();

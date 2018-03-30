@@ -7,14 +7,9 @@ class CreateOrdersTable extends Migration
 {
     public function up()
     {
-        Schema::create('status', function (Blueprint $table) {
-            $table->unsignedInteger('id');
-            $table->string('name')->nullable();
-            $table->string('display_name')->nullable();
-            $table->timestamps();
-        });
-
         Schema::create('orders', function (Blueprint $table) {
+            $table->unsignedInteger('status');
+            $table->unsignedInteger('shipping_status')->default(0);
             $table->increments('id');
             $table->string('sn')->unique();
             $table->decimal('total_price');

@@ -19,8 +19,9 @@
         "illuminate/config": ">5.5.0",
         "illuminate/database": ">5.5.0",
         "illuminate/support": ">5.5.0",
-        "unisharp/pricing": "dev-master",
-        "unisharp/buyable": "*"
+        "konekt/enum-eloquent": "^1.1",
+        "unisharp/buyable": "dev-master",
+        "unisharp/pricing": "dev-master"
     },
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.6.0",
