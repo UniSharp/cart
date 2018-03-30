@@ -55,7 +55,12 @@ class OrderManager
 
     public function getPricing($items)
     {
-        return Pricing::setItems($items)->apply($this->modules);
+        $pricing = Pricing::setItems($items);
+        collect($this->modules)->each(function ($moduel) use ($pricing) {
+            $pring->apply($pricing);
+        });
+
+        return $pricing;
     }
 
     public static function setSerialNumberResolver($resolver)
