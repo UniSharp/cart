@@ -27,19 +27,37 @@ class OrdersController extends Controller
         )->getOrderInstance()->load('items', 'receiverInformation', 'buyerInformation');
     }
 
-    public function update()
+    public function update(OrderContract $order, UpdateOrderRequest $request)
     {
+        $order->update($request->only('status', 'price', 'shipping_status'));
+
+        $diff = collect($order->items->pluck('id'))->diff(collect($request->items)->pluck('id'));
+        $order->items->whereIn('id', $diff->toArray())->each->delete();
+        collect($request->items)->each(function ($item) use ($order) {
+            $order->items->where('id', $item['id'])->first()->update($item);
+        });
+
+        if ($request->has('informations.receiver')) {
+            $result = $order->receiverInformation()->update($request->informations['receiver']);
+        }
+
+        if ($request->has('informations.buyer')) {
+            $order->buyerInformation()->update($request->informations['buyer']);
+        }
+
+        return ['success' => true];
     }
 
-    public function delete()
+    public function destroy(OrderContract $order)
     {
+        $order->delete();
+        return [
+            'success' => true
+        ];
     }
 
-    public function destroy()
+    public function show(OrderContract $order)
     {
-    }
-
-    public function show()
-    {
+        return $order->load('items', 'receiverInformation', 'buyerInformation');
     }
 }

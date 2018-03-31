@@ -33,5 +33,7 @@ class CartServiceProvider extends ServiceProvider
         $this->app->bind(OrderStatusContract::class, OrderStatus::class);
         $this->app->bind(ShippingStatusContract::class, ShippingStatus::class);
         $this->app->bind(OrderItemContract::class, OrderItemStatus::class);
+
+        Route::model('order', get_class(resolve(OrderContract::class)));
     }
 }

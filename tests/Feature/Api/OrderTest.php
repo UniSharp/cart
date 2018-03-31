@@ -108,13 +108,92 @@ class OrderTest extends TestCase
             ]
         ]);
     }
-
-
-    public function testRemoveItem()
+    public function testUpdate()
     {
+        $order = Order::create([
+            'sn' => 'ABC-1',
+            'status' => OrderStatus::COMPLETED,
+            'total_price' => 100,
+        ]);
+
+        $order->items()->saveMany([
+            $item1 = OrderItem::create([
+                'spec' => 'default',
+                'quentity' => 1,
+                'price' => 100
+            ]),
+            $item2 = OrderItem::create([
+                'spec' => 'default',
+                'quentity' => 2,
+                'price' => 20
+            ]),
+        ]);
+
+        $order->receiverInformation()->create([
+            'type' => 'receiver',
+            'phone' => '999'
+        ]);
+
+        $response = $this->putJson("/api/v1/orders/{$order->id}", [
+            'informations' => [
+                'receiver' => [
+                    'phone' => '12345',
+                ]
+            ],
+            'items' => [
+                [
+                    'id' => $item1->id,
+                    'quentity' =>  2
+                ]
+            ]
+        ]);
+
+        $response->assertSuccessful();
+
+        $this->assertDatabaseHas('order_items', [
+            'id' => $item1->id,
+            'quentity' => 2
+        ]);
+
+        $this->assertDatabaseMissing('order_items', [
+            'id' => $item2->id
+        ]);
+
+        $this->assertEquals('12345', $order->refresh()->receiverInformation->phone);
     }
 
-    public function testDeleteCart()
+    public function testShow()
     {
+        $order = Order::create([
+            'sn' => 'ABC-1',
+            'status' => OrderStatus::COMPLETED,
+            'total_price' => 100,
+        ]);
+        $order->items()->save($item = OrderItem::create([
+            'spec' => 'default',
+            'price' => 100
+        ]));
+
+        $response = $this->get("/api/v1/orders/{$order->id}");
+        $response->assertSuccessful();
+        $this->assertEquals(
+            $order->refresh()->load('items', 'receiverInformation', 'buyerInformation')->toArray(),
+            $response->json()
+        );
+    }
+
+    public function testDeleteOrder()
+    {
+        $order = Order::create([
+            'sn' => 'ABC-1',
+            'status' => OrderStatus::COMPLETED,
+            'total_price' => 100,
+        ])->items()->save($item = OrderItem::create([
+            'spec' => 'default',
+            'price' => 100
+        ]));
+
+        $response = $this->delete("/api/v1/orders/{$order->id}");
+        $this->assertDatabaseMissing('orders', ['id'  => $order->id]);
     }
 }
