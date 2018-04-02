@@ -23,7 +23,10 @@ class OrdersController extends Controller
     {
         return OrderManager::make()->checkout(
             CartManager::make(Cart::findOrFail($request->cart))->getItems(),
-            $request->informations
+            [
+                'buyer' => $request->buyer_information,
+                'receiver' => $request->receiver_information
+            ]
         )->getOrderInstance()->load('items', 'receiverInformation', 'buyerInformation');
     }
 
@@ -37,12 +40,12 @@ class OrdersController extends Controller
             $order->items->where('id', $item['id'])->first()->update($item);
         });
 
-        if ($request->has('informations.receiver')) {
-            $result = $order->receiverInformation()->update($request->informations['receiver']);
+        if ($request->has('receiver_information')) {
+            $result = $order->receiverInformation()->update($request->receiver_information);
         }
 
-        if ($request->has('informations.buyer')) {
-            $order->buyerInformation()->update($request->informations['buyer']);
+        if ($request->has('buyer_information')) {
+            $order->buyerInformation()->update($request->buyer_information);
         }
 
         return ['success' => true];

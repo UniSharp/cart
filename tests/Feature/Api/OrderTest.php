@@ -32,19 +32,17 @@ class OrderTest extends TestCase
 
         $response = $this->postJson('/api/v1/orders', [
             'cart' => $cart->getCartInstance()->id,
-            'informations' => [
-                'receiver' => [
-                    'name' => 'User A',
-                    'address' => 'A 區 B 縣',
-                    'phone' => '0912345678',
-                    'email' => 'fk@example.com'
-                ],
-                'buyer' => [
-                    'name' => 'User A',
-                    'address' => 'A 區 B 縣',
-                    'phone' => '0912345678',
-                    'email' => 'fk@example.com'
-                ]
+            'receiver_information' => [
+                'name' => 'User A',
+                'address' => 'A 區 B 縣',
+                'phone' => '0912345678',
+                'email' => 'fk@example.com'
+            ],
+            'buyer_information' => [
+                'name' => 'User A',
+                'address' => 'A 區 B 縣',
+                'phone' => '0912345678',
+                'email' => 'fk@example.com'
             ]
         ]);
 
@@ -135,10 +133,8 @@ class OrderTest extends TestCase
         ]);
 
         $response = $this->putJson("/api/v1/orders/{$order->id}", [
-            'informations' => [
-                'receiver' => [
-                    'phone' => '12345',
-                ]
+            'receiver_information' => [
+                'phone' => '12345',
             ],
             'items' => [
                 [
