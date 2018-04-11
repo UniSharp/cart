@@ -104,20 +104,20 @@ class CartManager
 
     public static function route(callable $callback = null): void
     {
-        Route::prefix('carts')
-            ->namespace('UniSharp\\Cart\\Http\\Controllers\\Api\\V1')
-            ->group(function () use ($callback) {
-                Route::post('/', 'CartsController@store');
-                Route::post('/{cart}', 'CartsController@refresh');
-                Route::put('/{cart}', 'CartsController@update');
-                Route::get('/{cart}', 'CartsController@show');
-                Route::delete('/{cart}/{item}', 'CartsController@delete');
-                Route::delete('/{cart}/', 'CartsController@destroy');
+        Route::prefix('carts')->group(function () use ($callback) {
+            $namespace = '\\UniSharp\\Cart\\Http\\Controllers\\Api\\V1\\';
 
-                if ($callback) {
-                    $callback();
-                }
-            });
+            Route::post('/', $namespace . 'CartsController@store');
+            Route::post('/{cart}', $namespace . 'CartsController@refresh');
+            Route::put('/{cart}', $namespace . 'CartsController@update');
+            Route::get('/{cart}', $namespace . 'CartsController@show');
+            Route::delete('/{cart}/{item}', $namespace . 'CartsController@delete');
+            Route::delete('/{cart}/', $namespace . 'CartsController@destroy');
+
+            if ($callback) {
+                $callback();
+            }
+        });
     }
 
     protected function getSpecId($model)

@@ -79,20 +79,20 @@ class OrderManager
 
     public static function route(callable $callback = null): void
     {
-        Route::prefix('orders')
-            ->namespace('UniSharp\\Cart\\Http\\Controllers\\Api\\V1')
-            ->group(function () use ($callback) {
-                Route::get('/', 'OrdersController@index');
-                Route::post('/', 'OrdersController@store');
-                Route::put('/{order}', 'OrdersController@update');
-                Route::get('/{order}', 'OrdersController@show');
-                Route::delete('/{order}/{item}', 'OrdersController@delete');
-                Route::delete('/{order}/', 'OrdersController@destroy');
+        Route::prefix('orders')->group(function () use ($callback) {
+            $namespace = '\\UniSharp\\Cart\\Http\\Controllers\\Api\\V1\\';
 
-                if ($callback) {
-                    $callback();
-                }
-            });
+            Route::get('/', $namespace . 'OrdersController@index');
+            Route::post('/', $namespace . 'OrdersController@store');
+            Route::put('/{order}', $namespace . 'OrdersController@update');
+            Route::get('/{order}', $namespace . 'OrdersController@show');
+            Route::delete('/{order}/{item}', $namespace . 'OrdersController@delete');
+            Route::delete('/{order}/', $namespace . 'OrdersController@destroy');
+
+            if ($callback) {
+                $callback();
+            }
+        });
     }
 
     protected function saveCartItems(CartItemCollection $items)
