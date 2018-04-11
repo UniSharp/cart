@@ -2,14 +2,15 @@
 namespace UniSharp\Cart;
 
 use ReflectionClass;
+use InvalidArgumentException;
 use UniSharp\Buyable\Models\Spec;
 use UniSharp\Cart\Models\CartItem;
+use Illuminate\Foundation\Auth\User;
 use UniSharp\Buyable\Traits\Buyable;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\Model;
 use UniSharp\Cart\Models\Cart as CartModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Foundation\Auth\User;
-use InvalidArgumentException;
 
 class CartManager
 {
@@ -99,6 +100,24 @@ class CartManager
     {
         $this->items = CartItemCollection::make();
         return $this;
+    }
+
+    public static function route(callable $callback = null): void
+    {
+        Route::prefix('carts')
+            ->namespace('UniSharp\\Cart\\Http\\Controllers\\Api\\V1')
+            ->group(function () use ($callback) {
+                Route::post('/', 'CartsController@store');
+                Route::post('/{cart}', 'CartsController@refresh');
+                Route::put('/{cart}', 'CartsController@update');
+                Route::get('/{cart}', 'CartsController@show');
+                Route::delete('/{cart}/{item}', 'CartsController@delete');
+                Route::delete('/{cart}/', 'CartsController@destroy');
+
+                if ($callback) {
+                    $callback();
+                }
+            });
     }
 
     protected function getSpecId($model)

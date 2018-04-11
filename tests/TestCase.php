@@ -1,6 +1,9 @@
 <?php
 namespace UniSharp\Cart\Tests;
 
+use UniSharp\Cart\CartManager;
+use UniSharp\Cart\OrderManager;
+use Illuminate\Support\Facades\Route;
 use UniSharp\Pricing\PricingServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use UniSharp\Cart\Providers\CartServiceProvider;
@@ -17,8 +20,12 @@ abstract class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix'   => '',
         ]);
-    }
 
+        Route::prefix('/api/v1')->middleware('api')->group(function () {
+            CartManager::route();
+            OrderManager::route();
+        });
+    }
 
     protected function getPackageProviders($app)
     {

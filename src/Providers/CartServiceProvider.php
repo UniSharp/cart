@@ -20,11 +20,6 @@ class CartServiceProvider extends ServiceProvider
             __DIR__.'/../../database/migrations'
         );
 
-        Route::prefix('api')
-            ->middleware('api')
-            ->namespace('UniSharp\Cart\Http\Controllers')
-            ->group(__DIR__.'/../../routes/api.php');
-
         OrderManager::setSerialNumberResolver(function () {
             return uniqid();
         });

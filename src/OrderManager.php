@@ -3,6 +3,7 @@ namespace UniSharp\Cart;
 
 use UniSharp\Cart\Models\Order;
 use UniSharp\Cart\Models\OrderItem;
+use Illuminate\Support\Facades\Route;
 use UniSharp\Cart\Models\Information;
 use UniSharp\Pricing\Facades\Pricing;
 use UniSharp\Cart\Contracts\OrderContract;
@@ -74,6 +75,24 @@ class OrderManager
     public static function setPricingResolver($resolver)
     {
         static::$pricingResolver = $resolver;
+    }
+
+    public static function route(callable $callback = null): void
+    {
+        Route::prefix('orders')
+            ->namespace('UniSharp\\Cart\\Http\\Controllers\\Api\\V1')
+            ->group(function () use ($callback) {
+                Route::get('/', 'OrdersController@index');
+                Route::post('/', 'OrdersController@store');
+                Route::put('/{order}', 'OrdersController@update');
+                Route::get('/{order}', 'OrdersController@show');
+                Route::delete('/{order}/{item}', 'OrdersController@delete');
+                Route::delete('/{order}/', 'OrdersController@destroy');
+
+                if ($callback) {
+                    $callback();
+                }
+            });
     }
 
     protected function saveCartItems(CartItemCollection $items)
