@@ -32,7 +32,7 @@ class CartManager
         if ($this->cart->user_id && $this->cart->user_id != $user->id) {
             throw new InvalidArgumentException();
         }
-        
+
         $this->cart->user_id = $user->id;
     }
 
@@ -62,15 +62,15 @@ class CartManager
     {
         $extra = collect($extra)->except('quantity')->toArray();
         if ($this->items->where('id', $this->getSpecId($model))->count() > 0) {
-            $this->items->where('id', $this->getSpecId($model))->each(function ($item) use ($model, $quentity, $extra) {
-                $item->quentity += $quentity;
+            $this->items->where('id', $this->getSpecId($model))->each(function ($item) use ($model, $quantity, $extra) {
+                $item->quantity += $quantity;
                 $item->fill($extra);
             });
         } else {
             $this->items->push(app(CartItem::class)->fill([
                 'id' => $this->getSpecId($model),
                 'cart_id' => $this->cart->id,
-                'quentity' => $quentity,
+                'quantity' => $quantity,
             ] + $extra));
         }
 
