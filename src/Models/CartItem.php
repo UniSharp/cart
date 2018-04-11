@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CartItem extends Model
 {
-    protected $fillable = ['id', 'cart_id', 'quentity'];
+    protected $fillable = ['id', 'cart_id', 'quantity'];
     protected $appends = ['price'];
 
     public function spec()

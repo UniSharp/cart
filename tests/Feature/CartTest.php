@@ -21,7 +21,7 @@ class CartTest extends TestCase
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
-            'quentity' => 20 ,
+            'quantity' => 20 ,
         ]);
     }
 
@@ -36,7 +36,7 @@ class CartTest extends TestCase
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
-            'quentity' => 20,
+            'quantity' => 20,
         ]);
     }
 
@@ -51,7 +51,7 @@ class CartTest extends TestCase
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
-            'quentity' => 20 ,
+            'quantity' => 20 ,
         ]);
     }
 
@@ -67,7 +67,7 @@ class CartTest extends TestCase
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
-            'quentity' => 9,
+            'quantity' => 9,
         ]);
     }
 
@@ -83,7 +83,7 @@ class CartTest extends TestCase
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->getCartInstance()->id,
             'id' =>  $product->getSpecifiedSpec()->id,
-            'quentity' => 9,
+            'quantity' => 9,
         ]);
     }
 

@@ -79,7 +79,7 @@ class OrderManager
     protected function saveCartItems(CartItemCollection $items)
     {
         $items->each(function ($item) {
-            $orderItem = new OrderItem($item->only('quentity'));
+            $orderItem = new OrderItem($item->only('quantity'));
             $input = collect($item->spec->getAttributes())
                 ->except('id', 'created_at', 'updated_at', 'buyable_type', 'buyable_id', 'stock')
                 ->mapWithKeys(function ($value, $key) {

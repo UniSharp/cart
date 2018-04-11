@@ -7,7 +7,7 @@ use UniSharp\Cart\Contracts\OrderItemContract;
 
 class OrderItem extends Model implements OrderItemContract
 {
-    protected $fillable = ['id', 'name', 'spec', 'sku', 'price', 'order_id', 'quentity'];
+    protected $fillable = ['id', 'name', 'spec', 'sku', 'price', 'order_id', 'quantity'];
 
     public function order()
     {

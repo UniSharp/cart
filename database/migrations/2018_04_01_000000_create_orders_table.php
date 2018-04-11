@@ -24,7 +24,7 @@ class CreateOrdersTable extends Migration
             $table->string('spec')->nullable();
             $table->string('sku')->nullable();
             $table->decimal('price')->nullable();
-            $table->unsignedInteger('quentity')->nullable();
+            $table->unsignedInteger('quantity')->nullable();
             $table->unsignedInteger('spec_id')->nullable();
             $table->unsignedInteger('order_id')->nullable();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');

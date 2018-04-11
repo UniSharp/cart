@@ -56,7 +56,7 @@ class OrderTest extends TestCase
             'price' => 20,
             'spec' => 'default',
             'sku' => 'B-1',
-            'quentity' => 1
+            'quantity' => 1
         ]);
 
         $this->assertDatabaseHas('information', [

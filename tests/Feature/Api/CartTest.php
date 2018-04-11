@@ -23,7 +23,7 @@ class CartTest extends TestCase
             'specs' => [
                 [
                     'id' => $product->specs->first()->id,
-                    'quentity' => 10
+                    'quantity' => 10
                 ]
             ]
         ]);
@@ -39,7 +39,7 @@ class CartTest extends TestCase
 
         $this->assertEquals(
             10,
-            collect($response->json()['items'])->first()['quentity']
+            collect($response->json()['items'])->first()['quantity']
         );
     }
 
@@ -64,7 +64,7 @@ class CartTest extends TestCase
             'specs' => [
                 [
                     'id' => $product2->specs->first()->id,
-                    'quentity' => 5
+                    'quantity' => 5
                 ]
             ]
         ]);
@@ -77,7 +77,7 @@ class CartTest extends TestCase
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => $cart->id,
             'id' => $product2->specs->first()->id,
-            'quentity' => 5
+            'quantity' => 5
         ]);
     }
 
@@ -94,7 +94,7 @@ class CartTest extends TestCase
             'specs' => [
                 [
                     'id' => $product->specs->first()->id,
-                    'quentity' => 20
+                    'quantity' => 20
                 ]
             ]
         ]);
@@ -106,7 +106,7 @@ class CartTest extends TestCase
 
         $this->assertEquals(
             20,
-            collect($response->json()['items'])->first()['quentity']
+            collect($response->json()['items'])->first()['quantity']
         );
     }
 
@@ -123,7 +123,7 @@ class CartTest extends TestCase
             'specs' => [
                 [
                     'id' => $product->specs->first()->id,
-                    'quentity' => 20
+                    'quantity' => 20
                 ]
             ]
         ]);
@@ -135,14 +135,14 @@ class CartTest extends TestCase
 
         $this->assertEquals(
             20,
-            collect($response->json()['items'])->first()['quentity']
+            collect($response->json()['items'])->first()['quantity']
         );
 
         $response = $this->putJson("api/v1/carts/{$cart->id}", [
             'specs' => [
                 [
                     'id' => $product->specs->first()->id,
-                    'quentity' => 20
+                    'quantity' => 20
                 ]
             ]
         ]);
@@ -151,7 +151,7 @@ class CartTest extends TestCase
         $this->assertDatabaseHas('cart_items', [
             'id' => $product->specs->first()->id,
             'cart_id' => $cart->id,
-            'quentity' => 40
+            'quantity' => 40
         ]);
     }
 
@@ -171,7 +171,7 @@ class CartTest extends TestCase
             'specs' => [
                 [
                     'id' => $product->specs->first()->id,
-                    'quentity' => 20
+                    'quantity' => 20
                 ]
             ]
         ]);
@@ -183,7 +183,7 @@ class CartTest extends TestCase
 
         $this->assertEquals(
             30,
-            collect($response->json()['items'])->first()['quentity']
+            collect($response->json()['items'])->first()['quantity']
         );
     }
 
@@ -204,7 +204,7 @@ class CartTest extends TestCase
             'specs' => [
                 [
                     'id' => $product->specs->first()->id,
-                    'quentity' => 20
+                    'quantity' => 20
                 ]
             ]
         ]);

@@ -61,7 +61,7 @@ class OrderTest extends TestCase
             'price' => 20,
             'spec' => 'default',
             'sku' => 'B-1',
-            'quentity' => 1
+            'quantity' => 1
         ]);
 
         $this->assertDatabaseHas('information', [
@@ -117,12 +117,12 @@ class OrderTest extends TestCase
         $order->items()->saveMany([
             $item1 = OrderItem::create([
                 'spec' => 'default',
-                'quentity' => 1,
+                'quantity' => 1,
                 'price' => 100
             ]),
             $item2 = OrderItem::create([
                 'spec' => 'default',
-                'quentity' => 2,
+                'quantity' => 2,
                 'price' => 20
             ]),
         ]);
@@ -139,7 +139,7 @@ class OrderTest extends TestCase
             'items' => [
                 [
                     'id' => $item1->id,
-                    'quentity' =>  2
+                    'quantity' =>  2
                 ]
             ]
         ]);
@@ -148,7 +148,7 @@ class OrderTest extends TestCase
 
         $this->assertDatabaseHas('order_items', [
             'id' => $item1->id,
-            'quentity' => 2
+            'quantity' => 2
         ]);
 
         $this->assertDatabaseMissing('order_items', [

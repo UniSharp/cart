@@ -58,17 +58,17 @@ class CartManager
         return $this;
     }
 
-    public function add($model, $quentity)
+    public function add($model, $quantity)
     {
         if ($this->items->where('id', $this->getSpecId($model))->count() > 0) {
-            $this->items->where('id', $this->getSpecId($model))->each(function ($item) use ($model, $quentity) {
-                $item->quentity += $quentity;
+            $this->items->where('id', $this->getSpecId($model))->each(function ($item) use ($model, $quantity) {
+                $item->quantity += $quantity;
             });
         } else {
             $this->items->push(app(CartItem::class)->fill([
                 'id' => $this->getSpecId($model),
                 'cart_id' => $this->cart->id,
-                'quentity' => $quentity,
+                'quantity' => $quantity,
             ]));
         }
 
@@ -84,11 +84,11 @@ class CartManager
         return $this;
     }
 
-    public function update($model, $quentity)
+    public function update($model, $quantity)
     {
         $this->items->where('id', $this->getSpecId($model))->each->fill([
             'cart_id' => $this->cart->id,
-            'quentity' => $quentity,
+            'quantity' => $quantity,
         ]);
         return $this;
     }

@@ -15,7 +15,7 @@ class UpdateCartRequest extends FormRequest
         return [
             'specs' => 'array',
             'specs.*.id' => 'exists:specs,id',
-            'specs.*.quentity' => 'numeric',
+            'specs.*.quantity' => 'numeric',
         ];
     }
 }
