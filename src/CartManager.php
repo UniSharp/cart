@@ -52,9 +52,7 @@ class CartManager
             'id',
             $this->cart->items()->pluck('id')->diff($this->items->pluck('id'))
         )->delete();
-        $this->items->each(function ($item) {
-            $item->save();
-        });
+        $this->items->each->save();
 
         $this->cart->save();
         return $this;

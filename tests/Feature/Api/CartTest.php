@@ -3,6 +3,7 @@ namespace UniSharp\Cart\Tests\Feature\Api;
 
 use UniSharp\Cart\CartManager;
 use UniSharp\Cart\Tests\TestCase;
+use UniSharp\Cart\Models\CartItem;
 use Illuminate\Foundation\Auth\User;
 use UniSharp\Cart\Tests\Fixtures\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -107,6 +108,51 @@ class CartTest extends TestCase
             20,
             collect($response->json()['items'])->first()['quentity']
         );
+    }
+
+    public function testAddDuplication()
+    {
+        $product = Product::create([
+            'name' => 'ProductA',
+            'price' => 50
+        ]);
+
+        $cart = CartManager::make()->getCartInstance();
+
+        $response = $this->putJson("api/v1/carts/{$cart->id}", [
+            'specs' => [
+                [
+                    'id' => $product->specs->first()->id,
+                    'quentity' => 20
+                ]
+            ]
+        ]);
+
+        $this->assertEquals(
+            $product->specs->first()->id,
+            collect($response->json()['items'])->first()['id']
+        );
+
+        $this->assertEquals(
+            20,
+            collect($response->json()['items'])->first()['quentity']
+        );
+
+        $response = $this->putJson("api/v1/carts/{$cart->id}", [
+            'specs' => [
+                [
+                    'id' => $product->specs->first()->id,
+                    'quentity' => 20
+                ]
+            ]
+        ]);
+
+
+        $this->assertDatabaseHas('cart_items', [
+            'id' => $product->specs->first()->id,
+            'cart_id' => $cart->id,
+            'quentity' => 40
+        ]);
     }
 
     public function testPutAndAutoMerge()
