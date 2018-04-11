@@ -6,6 +6,7 @@ use Konekt\Enum\Eloquent\CastsEnums;
 use UniSharp\Cart\Models\Information;
 use Illuminate\Database\Eloquent\Model;
 use UniSharp\Cart\Contracts\OrderContract;
+use UniSharp\Cart\Contracts\OrderItemContract;
 use UniSharp\Cart\Contracts\OrderStatusContract;
 use UniSharp\Cart\Contracts\ShippingStatusContract;
 
@@ -28,7 +29,7 @@ class Order extends Model implements OrderContract
 
     public function items()
     {
-        return $this->hasMany(get_class(resolve(OrderItem::class)));
+        return $this->hasMany(get_class(resolve(OrderItemContract::class)));
     }
 
     public function buyerInformation()
