@@ -14,7 +14,7 @@ class CartsController extends Controller
     {
         $cart = CartManager::make();
         collect($request->specs)->each(function ($spec) use ($cart) {
-            $cart->add($spec['id'], $spec['quantity']);
+            $cart->add($spec['id'], $spec['quantity'], $spec);
         });
 
         $cart->save();
@@ -25,7 +25,7 @@ class CartsController extends Controller
     {
         $cart = CartManager::make($cart);
         collect($request->specs)->each(function ($spec) use ($cart) {
-            $cart->add($spec['id'], $spec['quantity']);
+            $cart->add($spec['id'], $spec['quantity'], $spec);
         });
 
         if (auth()->user()) {
@@ -41,7 +41,7 @@ class CartsController extends Controller
         $cart = CartManager::make($cart)->clean();
 
         collect($request->specs)->each(function ($spec) use ($cart) {
-            $cart->add($spec['id'], $spec['quantity']);
+            $cart->add($spec['id'], $spec['quantity'], $spec);
         });
 
         if (auth()->user()) {

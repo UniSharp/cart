@@ -58,18 +58,20 @@ class CartManager
         return $this;
     }
 
-    public function add($model, $quantity)
+    public function add($model, $quantity, array $extra = [])
     {
+        $extra = collect($extra)->except('quantity')->toArray();
         if ($this->items->where('id', $this->getSpecId($model))->count() > 0) {
-            $this->items->where('id', $this->getSpecId($model))->each(function ($item) use ($model, $quantity) {
-                $item->quantity += $quantity;
+            $this->items->where('id', $this->getSpecId($model))->each(function ($item) use ($model, $quentity, $extra) {
+                $item->quentity += $quentity;
+                $item->fill($extra);
             });
         } else {
             $this->items->push(app(CartItem::class)->fill([
                 'id' => $this->getSpecId($model),
                 'cart_id' => $this->cart->id,
-                'quantity' => $quantity,
-            ]));
+                'quentity' => $quentity,
+            ] + $extra));
         }
 
         return $this;
