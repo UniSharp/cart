@@ -68,7 +68,7 @@ class CartsController extends Controller
         ];
     }
 
-    public function show(CartMdoel $cart)
+    public function show(CartModel $cart)
     {
         return $cart->load('items');
     }
