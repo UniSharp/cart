@@ -70,6 +70,6 @@ class CartsController extends Controller
 
     public function show(CartModel $cart)
     {
-        return $cart->load('items');
+        return $cart->load('items.spec.buyable');
     }
 }
