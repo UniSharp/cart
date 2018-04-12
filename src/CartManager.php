@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\Model;
 use UniSharp\Cart\Models\Cart as CartModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use UniSharp\Cart\Traits\CanPricing;
 
 class CartManager
 {
+    use CanPricing;
     protected $cart;
     protected $items;
 
@@ -100,6 +102,11 @@ class CartManager
     {
         $this->items = CartItemCollection::make();
         return $this;
+    }
+
+    public function getPrice()
+    {
+        return $this->getPricing($this->items)->getTotal();
     }
 
     public static function route(callable $callback = null): void

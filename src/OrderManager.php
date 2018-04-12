@@ -8,13 +8,13 @@ use UniSharp\Cart\Models\Information;
 use UniSharp\Pricing\Facades\Pricing;
 use UniSharp\Cart\Contracts\OrderContract;
 use UniSharp\Cart\Contracts\OrderStatusContract;
+use UniSharp\Cart\Traits\CanPricing;
 
 class OrderManager
 {
+    use CanPricing;
     protected static $serialNumberResolver;
-    protected static $pricingResolver;
     protected $order;
-    protected $modules = [];
 
     public function __construct(Order $order)
     {
@@ -29,12 +29,6 @@ class OrderManager
     public function getOrderInstance()
     {
         return $this->order;
-    }
-
-    public function apply($modules)
-    {
-        $this->modules = $modules;
-        return $this;
     }
 
     public function checkout(CartItemCollection $items, array $informations = [])
@@ -57,24 +51,9 @@ class OrderManager
         return $this;
     }
 
-    public function getPricing($items)
-    {
-        $pricing = Pricing::setItems($items);
-        collect($this->modules)->each(function ($moduel) use ($pricing) {
-            $pring->apply($pricing);
-        });
-
-        return $pricing;
-    }
-
     public static function setSerialNumberResolver($resolver)
     {
         static::$serialNumberResolver = $resolver;
-    }
-
-    public static function setPricingResolver($resolver)
-    {
-        static::$pricingResolver = $resolver;
     }
 
     public static function route(callable $callback = null): void
