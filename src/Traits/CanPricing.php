@@ -17,7 +17,7 @@ trait CanPricing
     {
         $pricing = Pricing::setItems($items);
         collect($this->getModules())->each(function ($module) use ($pricing) {
-            $pring->apply($module);
+            $pricing->apply($module);
         });
 
         return $pricing;
