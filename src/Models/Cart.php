@@ -10,7 +10,7 @@ use UniSharp\Cart\Contracts\CartItemContract;
 class Cart extends Model implements CartContract
 {
     protected $appends = [
-        'price'
+        'price', 'fee', 'originalPrice'
     ];
 
     public function items()
@@ -21,5 +21,15 @@ class Cart extends Model implements CartContract
     public function getPriceAttribute()
     {
         return CartManager::make($this)->getPrice();
+    }
+
+    public function getOriginalPriceAttribute()
+    {
+        return CartManager::make($this)->getOriginalPrice();
+    }
+
+    public function getFeeAttribute()
+    {
+        return CartManager::make($this)->getFee();
     }
 }

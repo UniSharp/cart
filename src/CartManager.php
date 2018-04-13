@@ -109,6 +109,16 @@ class CartManager
         return $this->getPricing($this->items)->getTotal();
     }
 
+    public function getOriginalPrice()
+    {
+        return $this->getPricing($this->items)->getOriginalTotal();
+    }
+
+    public function getFee()
+    {
+        return array_sum($this->getPricing($this->items)->getFees());
+    }
+
     public static function route(callable $callback = null): void
     {
         Route::prefix('carts')->group(function () use ($callback) {
