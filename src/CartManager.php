@@ -7,11 +7,12 @@ use UniSharp\Buyable\Models\Spec;
 use UniSharp\Cart\Models\CartItem;
 use Illuminate\Foundation\Auth\User;
 use UniSharp\Buyable\Traits\Buyable;
+use UniSharp\Cart\Traits\CanPricing;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\Model;
 use UniSharp\Cart\Models\Cart as CartModel;
+use UniSharp\Cart\Contracts\CartItemContract;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use UniSharp\Cart\Traits\CanPricing;
 
 class CartManager
 {
@@ -70,7 +71,7 @@ class CartManager
                 $item->fill($extra);
             });
         } else {
-            $this->items->push(app(CartItem::class)->fill([
+            $this->items->push(app(CartItemContract::class)->fill([
                 'id' => $this->getSpecId($model),
                 'cart_id' => $this->cart->id,
                 'quantity' => $quantity,
