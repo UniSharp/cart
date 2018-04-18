@@ -1,6 +1,7 @@
 <?php
 namespace UniSharp\Cart;
 
+use UniSharp\Cart\Events\OrderSaved;
 use UniSharp\Cart\Models\Order;
 use UniSharp\Cart\Models\OrderItem;
 use Illuminate\Foundation\Auth\User;
@@ -45,7 +46,7 @@ class OrderManager
         $this->order->total_price = $this->getPricing($items)->getTotal();
         $this->order->save();
 
-        $this->saveCartItems($items);
+        $orderItems = $this->saveCartItems($items);
 
         if (array_key_exists('receiver', $informations)) {
             $this->saveReceiverInformation($informations['receiver']);
@@ -54,6 +55,8 @@ class OrderManager
         if (array_key_exists('buyer', $informations)) {
             $this->saveBuyerInformation($informations['buyer']);
         }
+
+        event(new OrderSaved($this->order, $orderItems));
 
         return $this;
     }
@@ -81,9 +84,9 @@ class OrderManager
         });
     }
 
-    protected function saveCartItems(CartItemCollection $items)
+    protected function saveCartItems(CartItemCollection $items): CartItemCollection
     {
-        $items->each(function ($item) {
+        $orderItems = $items->map(function ($item) {
             $orderItem = new OrderItem($item->only('quantity'));
             $input = collect($item->spec->getAttributes())
                 ->except('id', 'created_at', 'updated_at', 'stock')
@@ -92,9 +95,11 @@ class OrderManager
                 })->toArray();
             $orderItem->fill($input);
             $this->order->items()->save($orderItem);
+
+            return $orderItem;
         });
 
-        return $this;
+        return $orderItems;
     }
 
     protected function saveReceiverInformation(array $information)
