@@ -21,7 +21,12 @@ class OrdersController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
-        return OrderManager::make()->checkout(
+        $manager = OrderManager::make();
+        if (auth()->user()) {
+            $manager->assign(auth()->user());
+        }
+
+        return $manager->checkout(
             CartManager::make(Cart::findOrFail($request->cart))->getItems(),
             [
                 'buyer' => $request->buyer_information,

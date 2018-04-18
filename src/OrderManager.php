@@ -3,12 +3,13 @@ namespace UniSharp\Cart;
 
 use UniSharp\Cart\Models\Order;
 use UniSharp\Cart\Models\OrderItem;
+use Illuminate\Foundation\Auth\User;
+use UniSharp\Cart\Traits\CanPricing;
 use Illuminate\Support\Facades\Route;
 use UniSharp\Cart\Models\Information;
 use UniSharp\Pricing\Facades\Pricing;
 use UniSharp\Cart\Contracts\OrderContract;
 use UniSharp\Cart\Contracts\OrderStatusContract;
-use UniSharp\Cart\Traits\CanPricing;
 
 class OrderManager
 {
@@ -29,6 +30,12 @@ class OrderManager
     public function getOrderInstance()
     {
         return $this->order;
+    }
+
+    public function assign(User $user)
+    {
+        $this->order->user_id = $user->id;
+        return $this;
     }
 
     public function checkout(CartItemCollection $items, array $informations = [])

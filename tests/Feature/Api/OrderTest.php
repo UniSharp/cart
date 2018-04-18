@@ -81,6 +81,44 @@ class OrderTest extends TestCase
         ]);
     }
 
+    public function testStoreAfterLogin()
+    {
+        $this->actingAs($user = User::create());
+        OrderManager::setSerialNumberResolver(function () {
+            return 'ABC-1';
+        });
+
+        $product = Product::create([
+            'name' => 'Product A',
+            'price' => 20,
+            'sku' => 'B-1',
+            'stock' => 20,
+        ]);
+
+        $cart = CartManager::make()->add($product->specs->first(), 1)->save();
+
+        $response = $this->postJson('/api/v1/orders', [
+            'cart' => $cart->getCartInstance()->id,
+            'receiver_information' => [
+                'name' => 'User A',
+                'address' => 'A 區 B 縣',
+                'phone' => '0912345678',
+                'email' => 'fk@example.com'
+            ],
+            'buyer_information' => [
+                'name' => 'User A',
+                'address' => 'A 區 B 縣',
+                'phone' => '0912345678',
+                'email' => 'fk@example.com'
+            ]
+        ]);
+
+        $this->assertDatabaseHas('orders', [
+            'id' => $response->json()['id'],
+            'user_id' => $user->id
+        ]);
+    }
+
     public function testList()
     {
         Order::create([
