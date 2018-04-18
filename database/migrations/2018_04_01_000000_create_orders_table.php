@@ -15,6 +15,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('total_price');
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->text('note')->nullable();
             $table->timestamps();
         });
 
