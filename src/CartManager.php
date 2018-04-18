@@ -65,8 +65,13 @@ class CartManager
     public function add($model, $quantity, array $extra = [])
     {
         $extra = collect($extra)->except('quantity')->toArray();
-        if ($this->items->where('id', $this->getSpecId($model))->count() > 0) {
-            $this->items->where('id', $this->getSpecId($model))->each(function ($item) use ($model, $quantity, $extra) {
+        $targetItems = $this->items->where('id', $this->getSpecId($model));
+        collect($extra)->each(function ($value, $key) use (&$targetItems) {
+            $targetItems = $targetItems->where($key, $value);
+        });
+
+        if ($targetItems->count() > 0) {
+            $targetItems->each(function ($item) use ($model, $quantity, $extra) {
                 $item->quantity += $quantity;
                 $item->fill($extra);
             });
