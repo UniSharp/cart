@@ -28,11 +28,8 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('quantity')->nullable();
             $table->unsignedInteger('spec_id')->nullable();
             $table->unsignedInteger('order_id')->nullable();
-            $table->unsignedInteger('buyable_id')->nullable();
-            $table->string('buyable_type')->nullable();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('spec_id')->references('id')->on('specs');
-            $table->foreign('buyable_id')->references('id');
             $table->timestamps();
         });
     }
