@@ -7,7 +7,7 @@ use UniSharp\Cart\Contracts\OrderItemContract;
 
 class OrderItem extends Model implements OrderItemContract
 {
-    protected $fillable = ['id', 'name', 'spec', 'sku', 'price', 'order_id', 'quantity', 'spec_id'];
+    protected $fillable = ['id', 'name', 'spec', 'sku', 'price', 'order_id', 'quantity', 'spec_id', 'buyable_id', 'buyable_type'];
 
     public function order()
     {
@@ -17,5 +17,10 @@ class OrderItem extends Model implements OrderItemContract
     public function spec()
     {
         return $this->belongsTo(Spec::class);
+    }
+
+    public function buyable()
+    {
+        return $this->morphTo();
     }
 }

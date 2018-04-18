@@ -86,7 +86,7 @@ class OrderManager
         $items->each(function ($item) {
             $orderItem = new OrderItem($item->only('quantity'));
             $input = collect($item->spec->getAttributes())
-                ->except('id', 'created_at', 'updated_at', 'buyable_type', 'buyable_id', 'stock')
+                ->except('id', 'created_at', 'updated_at', 'stock')
                 ->mapWithKeys(function ($value, $key) {
                     return [$key == 'name' ? 'spec' : $key => $value];
                 })->toArray();
