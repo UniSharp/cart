@@ -1,6 +1,7 @@
 <?php
 namespace UniSharp\Cart\Models;
 
+use App\User;
 use UniSharp\Cart\Models\OrderItem;
 use Konekt\Enum\Eloquent\CastsEnums;
 use UniSharp\Cart\Models\Information;
@@ -25,6 +26,11 @@ class Order extends Model implements OrderContract
             'shipping_status' => get_class(resolve(ShippingStatusContract::class)),
         ];
         return parent::__construct($attributes);
+    }
+
+    public function user()
+    {
+        $this->belongsTo(User::class);
     }
 
     public function items()
