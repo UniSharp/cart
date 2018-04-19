@@ -61,8 +61,6 @@ class OrderTest extends TestCase
             'spec' => 'default',
             'sku' => 'B-1',
             'quantity' => 1,
-            'buyable_type' => $spec->buyable_type,
-            'buyable_id' => $spec->buyable_id,
         ]);
 
         $this->assertDatabaseHas('information', [
