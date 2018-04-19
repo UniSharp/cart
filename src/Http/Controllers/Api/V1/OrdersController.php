@@ -6,6 +6,7 @@ use UniSharp\Cart\Models\Cart;
 use UniSharp\Cart\OrderManager;
 use Illuminate\Routing\Controller;
 use UniSharp\Cart\Contracts\OrderContract;
+use UniSharp\Cart\Contracts\OrderItemContract;
 use UniSharp\Cart\Http\Requests\StoreOrderRequest;
 use UniSharp\Cart\Http\Requests\UpdateOrderRequest;
 use UniSharp\Cart\Http\Requests\RefreshOrderRequest;
@@ -67,5 +68,12 @@ class OrdersController extends Controller
     public function show(OrderContract $order)
     {
         return $order->load('items', 'receiverInformation', 'buyerInformation');
+    }
+
+    public function delete($order, $item)
+    {
+        $item = (app(OrderItemContract::class)->find($item));
+        $item->delete();
+        return ['success' => true];
     }
 }

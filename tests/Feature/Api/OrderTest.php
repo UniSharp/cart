@@ -230,4 +230,20 @@ class OrderTest extends TestCase
         $response = $this->delete("/api/v1/orders/{$order->id}");
         $this->assertDatabaseMissing('orders', ['id'  => $order->id]);
     }
+
+    public function testDeleteOrderItem()
+    {
+        $order = Order::create([
+            'sn' => 'ABC-1',
+            'status' => OrderStatus::COMPLETED,
+            'total_price' => 100,
+        ])->items()->save($item = OrderItem::create([
+            'spec' => 'default',
+            'price' => 100
+        ]));
+
+        $response = $this->delete("/api/v1/orders/{$order->id}/{$item->id}");
+
+        $this->assertDatabaseMissing('order_items', ['id' => $item->id]);
+    }
 }
