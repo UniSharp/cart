@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "44c3d328f0f51d7d194a6fc56d30317f",
+    "content-hash": "2939c5881a476f57cbf843f3d0d58c72",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -1979,7 +1979,7 @@
                 "UniSharp",
                 "category"
             ],
-            "time": "2018-03-30 08:20:33"
+            "time": "2018-03-30T08:20:33+00:00"
         },
         {
             "name": "unisharp/pricing",
@@ -2040,7 +2040,7 @@
                 "laravel",
                 "pricing"
             ],
-            "time": "2018-03-27 07:05:19"
+            "time": "2018-03-27T07:05:19+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -2091,6 +2091,54 @@
                 "environment"
             ],
             "time": "2016-09-01T10:05:43+00:00"
+        },
+        {
+            "name": "voicetube/taiwan-payment-gateway",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/voicetube/Taiwan-Payment-Gateway.git",
+                "reference": "6f0513a68564b5d207acdf895029fae641435580"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/voicetube/Taiwan-Payment-Gateway/zipball/6f0513a68564b5d207acdf895029fae641435580",
+                "reference": "6f0513a68564b5d207acdf895029fae641435580",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "^0.4.4",
+                "phpmd/phpmd": "^2.6",
+                "phpunit/phpunit": "4.8.*",
+                "squizlabs/php_codesniffer": "^2.8"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "VoiceTube\\TaiwanPaymentGateway\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Merik Chen",
+                    "email": "merik@voicetube.com"
+                }
+            ],
+            "description": "A payment gateway library for Taiwan.",
+            "keywords": [
+                "Taiwan",
+                "VoiceTube",
+                "gateway",
+                "payment"
+            ],
+            "time": "2017-04-17T07:36:27+00:00"
         }
     ],
     "packages-dev": [
@@ -4047,7 +4095,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "unisharp/buyable": 20,
-        "unisharp/pricing": 20
+        "unisharp/pricing": 20,
+        "voicetube/taiwan-payment-gateway": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

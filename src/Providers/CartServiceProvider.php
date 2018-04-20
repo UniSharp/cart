@@ -8,6 +8,8 @@ use UniSharp\Cart\Models\CartItem;
 use UniSharp\Cart\Models\OrderItem;
 use UniSharp\Cart\Enums\OrderStatus;
 use UniSharp\Cart\Enums\OrderItemStatus;
+use UniSharp\Cart\Enums\PaymentStatus;
+use UniSharp\Cart\Enums\Payment;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use UniSharp\Cart\Enums\ShippingStatus;
@@ -18,6 +20,12 @@ use UniSharp\Cart\Contracts\OrderItemContract;
 use UniSharp\Cart\Contracts\OrderStatusContract;
 use UniSharp\Cart\Contracts\OrderItemStatusContract;
 use UniSharp\Cart\Contracts\ShippingStatusContract;
+use UniSharp\Cart\Contracts\PaymentStatusContract;
+use UniSharp\Cart\Contracts\PaymentContract;
+use VoiceTube\TaiwanPaymentGateway\TaiwanPaymentGateway;
+use VoiceTube\TaiwanPaymentGateway\TaiwanPaymentResponse;
+use VoiceTube\TaiwanPaymentGateway\Common\GatewayInterface;
+use VoiceTube\TaiwanPaymentGateway\Common\ResponseInterface;
 
 class CartServiceProvider extends ServiceProvider
 {
@@ -38,6 +46,29 @@ class CartServiceProvider extends ServiceProvider
         $this->app->bind(OrderItemContract::class, OrderItem::class);
         $this->app->bind(CartContract::class, Cart::class);
         $this->app->bind(CartItemContract::class, CartItem::class);
+        $this->app->bind(PaymentStatusContract::class, PaymentStatus::class);
+        $this->app->bind(PaymentContract::class, Payment::class);
+
+
+        $this->app->bind(GatewayInterface::class, function () {
+            return TaiwanPaymentGateway::create(config('cart.payment.driver', 'SpGateway'), [
+                'hashKey'        => config('cart.payment.hashKey'),
+                'hashIV'         => config('cart.payment.hashIV'),
+                'merchantId'     => config('cart.payment.merchantId'),
+                'actionUrl'      => 'https://ccore.spgateway.com/MPG/mpg_gateway',
+                'returnUrl'      => route('payment.callback'), // config('cart.payment.returnUrl'),
+                'notifyUrl'      => route('payment.callback'),
+                'clientBackUrl'  => config('cart.payment.clientBackUrl'),
+                'paymentInfoUrl' => config('cart.payment.paymentInfoUrl')
+            ]);
+        });
+
+        $this->app->bind(ResponseInterface::class, function () {
+            return TaiwanPaymentResponse::create(config('cart.payment.driver', 'SpGateway'), [
+                'hashKey'        => config('cart.payment.hashKey'),
+                'hashIV'         => config('cart.payment.hashIV'),
+            ]);
+        });
 
         Route::model('order', get_class(resolve(OrderContract::class)));
     }

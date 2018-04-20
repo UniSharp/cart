@@ -5,12 +5,15 @@ use UniSharp\Cart\CartManager;
 use UniSharp\Cart\Models\Cart;
 use UniSharp\Cart\OrderManager;
 use Illuminate\Routing\Controller;
+use UniSharp\Cart\Enums\PaymentStatus;
 use UniSharp\Cart\Contracts\OrderContract;
 use UniSharp\Cart\Contracts\OrderItemContract;
-use UniSharp\Cart\Contracts\OrderItemStatusContract;
 use UniSharp\Cart\Http\Requests\StoreOrderRequest;
 use UniSharp\Cart\Http\Requests\UpdateOrderRequest;
+use UniSharp\Cart\Contracts\OrderItemStatusContract;
 use UniSharp\Cart\Http\Requests\RefreshOrderRequest;
+use VoiceTube\TaiwanPaymentGateway\Common\GatewayInterface;
+use VoiceTube\TaiwanPaymentGateway\Common\ResponseInterface;
 
 class OrdersController extends Controller
 {
@@ -32,7 +35,8 @@ class OrdersController extends Controller
             CartManager::make(Cart::findOrFail($request->cart))->getItems(),
             [
                 'buyer' => $request->buyer_information,
-                'receiver' => $request->receiver_information
+                'receiver' => $request->receiver_information,
+                'payment' => $request->payment
             ]
         )->getOrderInstance()->load('items', 'receiverInformation', 'buyerInformation');
     }
@@ -81,5 +85,34 @@ class OrdersController extends Controller
         $order->save();
 
         return ['success' => true];
+    }
+
+    public function pay(GatewayInterface $gateway, OrderContract $order)
+    {
+        $gateway->newOrder(
+            $order->sn,
+            $order->total_price,
+            $order->name,
+            $order->note
+        );
+
+        $payment = studly_case($order->payment->value());
+        $gateway->{"use{$payment}"}();
+        return $gateway->genForm(true);
+    }
+
+    public function callback(ResponseInterface $response)
+    {
+        // this library will return false when status not 'Success'
+        $response = $response->processOrder();
+        switch ($response) {
+            case false:
+                get_class(resolve(OrderContract::class))::where('sn', $response['MerchantOrderNo'])
+                    ->update(['payment_status' => PaymentStatus::FAILED]);
+                break;
+            default:
+                get_class(resolve(OrderContract::class))::where('sn', $response['MerchantOrderNo'])
+                    ->update(['payment_status' => PaymentStatus::COMPLETE]);
+        }
     }
 }

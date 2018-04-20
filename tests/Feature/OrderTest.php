@@ -36,6 +36,7 @@ class OrderTest extends TestCase
         Event::fake();
 
         $manager = OrderManager::make()->checkout($cart->getItems(), [
+            'payment' => 'credit',
             'receiver' => [
                 'name' => 'User A',
                 'address' => 'A 區 B 縣',

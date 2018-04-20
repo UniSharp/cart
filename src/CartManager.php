@@ -38,6 +38,7 @@ class CartManager
         }
 
         $this->cart->user_id = $user->id;
+        return $this;
     }
 
     public function getCartInstance()

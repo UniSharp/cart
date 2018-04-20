@@ -36,6 +36,10 @@ class OrderManager
 
     public function assign(User $user)
     {
+        if ($this->order->user_id && $this->order->user_id != $user->id) {
+            throw new InvalidArgumentException();
+        }
+
         $this->order->user_id = $user->id;
         return $this;
     }
@@ -45,6 +49,7 @@ class OrderManager
         $this->order->status = app(OrderStatusContract::class);
         $this->order->sn = $this->order->sn ?? call_user_func(static::$serialNumberResolver);
         $this->order->total_price = $this->getPricing($items)->getTotal();
+        $this->order->payment = $informations['payment'];
         $this->order->save();
 
         $orderItems = $this->saveCartItems($items);
@@ -69,6 +74,8 @@ class OrderManager
 
     public static function route(callable $callback = null): void
     {
+        $namespace = '\\UniSharp\\Cart\\Http\\Controllers\\Api\\V1\\';
+        Route::post('/payment/callback', $namespace . 'OrdersController@callback')->name('payment.callback');
         Route::prefix('orders')->group(function () use ($callback) {
             $namespace = '\\UniSharp\\Cart\\Http\\Controllers\\Api\\V1\\';
 
@@ -76,6 +83,7 @@ class OrderManager
             Route::post('/', $namespace . 'OrdersController@store');
             Route::put('/{order}', $namespace . 'OrdersController@update');
             Route::get('/{order}', $namespace . 'OrdersController@show');
+            Route::get('/{order}/pay', $namespace . 'OrdersController@pay');
             Route::delete('/{order}/{item}', $namespace . 'OrdersController@delete');
             Route::delete('/{order}/', $namespace . 'OrdersController@destroy');
 

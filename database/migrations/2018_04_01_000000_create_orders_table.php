@@ -10,6 +10,8 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->unsignedInteger('status');
             $table->unsignedInteger('shipping_status')->default(0);
+            $table->tinyInteger('payment_status')->default(0);
+            $table->string('payment');
             $table->increments('id');
             $table->string('sn')->unique();
             $table->decimal('total_price');

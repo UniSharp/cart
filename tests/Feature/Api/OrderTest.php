@@ -32,6 +32,7 @@ class OrderTest extends TestCase
         $cart = CartManager::make()->add($product->specs->first(), 1)->save();
 
         $response = $this->postJson('/api/v1/orders', [
+            'payment' => 'credit',
             'cart' => $cart->getCartInstance()->id,
             'receiver_information' => [
                 'name' => 'User A',
@@ -100,6 +101,7 @@ class OrderTest extends TestCase
         $cart = CartManager::make()->add($product->specs->first(), 1)->save();
 
         $response = $this->postJson('/api/v1/orders', [
+            'payment' => 'credit',
             'cart' => $cart->getCartInstance()->id,
             'receiver_information' => [
                 'name' => 'User A',
@@ -124,6 +126,7 @@ class OrderTest extends TestCase
     public function testList()
     {
         Order::create([
+            'payment' => 'credit',
             'sn' => 'ABC-1',
             'status' => OrderStatus::COMPLETED,
             'total_price' => 100,
@@ -150,6 +153,7 @@ class OrderTest extends TestCase
     public function testUpdate()
     {
         $order = Order::create([
+            'payment' => 'credit',
             'sn' => 'ABC-1',
             'status' => OrderStatus::COMPLETED,
             'total_price' => 100,
@@ -176,6 +180,7 @@ class OrderTest extends TestCase
         ]);
 
         $response = $this->putJson("/api/v1/orders/{$order->id}", [
+            'payment' => 'credit',
             'receiver_information' => [
                 'phone' => '12345',
             ],
@@ -204,6 +209,7 @@ class OrderTest extends TestCase
     public function testShow()
     {
         $order = Order::create([
+            'payment' => 'credit',
             'sn' => 'ABC-1',
             'status' => OrderStatus::COMPLETED,
             'total_price' => 100,
@@ -226,6 +232,7 @@ class OrderTest extends TestCase
     {
         $order = Order::create([
             'sn' => 'ABC-1',
+            'payment' => 'credit',
             'status' => OrderStatus::COMPLETED,
             'total_price' => 100,
         ])->items()->save($item = OrderItem::create([
@@ -242,6 +249,7 @@ class OrderTest extends TestCase
     {
         $order = Order::create([
             'sn' => 'ABC-1',
+            'payment' => 'credit',
             'status' => OrderStatus::COMPLETED,
             'total_price' => 100,
         ])->items()->save($item = OrderItem::create([

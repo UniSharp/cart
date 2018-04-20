@@ -10,12 +10,14 @@ use UniSharp\Cart\Contracts\OrderContract;
 use UniSharp\Cart\Contracts\OrderItemContract;
 use UniSharp\Cart\Contracts\OrderStatusContract;
 use UniSharp\Cart\Contracts\ShippingStatusContract;
+use UniSharp\Cart\Contracts\PaymentStatusContract;
+use UniSharp\Cart\Contracts\PaymentContract;
 
 class Order extends Model implements OrderContract
 {
     use CastsEnums;
 
-    protected $fillable = ['status', 'sn', 'total_price', 'shipping_status'];
+    protected $fillable = ['status', 'sn', 'total_price', 'shipping_status', 'payment', 'payment_status'];
 
     protected $enums = [];
 
@@ -24,6 +26,8 @@ class Order extends Model implements OrderContract
         $this->enums = [
             'status' => get_class(resolve(OrderStatusContract::class)),
             'shipping_status' => get_class(resolve(ShippingStatusContract::class)),
+            'payment' => get_class(resolve(PaymentContract::class)),
+            'payment_status' => get_class(resolve(PaymentStatusContract::class))
         ];
         return parent::__construct($attributes);
     }
@@ -46,5 +50,10 @@ class Order extends Model implements OrderContract
     public function receiverInformation()
     {
         return $this->hasOne(Information::class)->where('type', 'receiver');
+    }
+
+    public function getNameAttribute()
+    {
+        return implode(' ,', $this->items->pluck('name')->toArray());
     }
 }
