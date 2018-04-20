@@ -252,6 +252,12 @@ class OrderTest extends TestCase
 
         $response = $this->delete("/api/v1/orders/{$order->id}/{$item->id}");
 
-        $this->assertDatabaseMissing('order_items', ['id' => $item->id]);
+        $this->assertDatabaseHas('orders', [
+            'total_price' => 0,
+        ]);
+        $this->assertDatabaseHas('order_items', [
+            'id' => $item->id,
+            'status' => OrderItemStatus::CANCELED,
+        ]);
     }
 }

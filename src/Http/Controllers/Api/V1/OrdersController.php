@@ -7,6 +7,7 @@ use UniSharp\Cart\OrderManager;
 use Illuminate\Routing\Controller;
 use UniSharp\Cart\Contracts\OrderContract;
 use UniSharp\Cart\Contracts\OrderItemContract;
+use UniSharp\Cart\Contracts\OrderItemStatusContract;
 use UniSharp\Cart\Http\Requests\StoreOrderRequest;
 use UniSharp\Cart\Http\Requests\UpdateOrderRequest;
 use UniSharp\Cart\Http\Requests\RefreshOrderRequest;
@@ -70,10 +71,15 @@ class OrdersController extends Controller
         return $order->load('items', 'receiverInformation', 'buyerInformation');
     }
 
-    public function delete($order, $item)
+    public function delete(OrderContract $order, $item)
     {
-        $item = (app(OrderItemContract::class)->find($item));
-        $item->delete();
+        $item = app(OrderItemContract::class)->find($item);
+        $item->status = app(OrderItemStatusContract::class)::CANCELED;
+        $item->save();
+
+        $order->total_price = $order->total_price - ($item->quality ?? 1) * $item->price;
+        $order->save();
+
         return ['success' => true];
     }
 }
