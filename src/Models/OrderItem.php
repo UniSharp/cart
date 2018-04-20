@@ -1,13 +1,26 @@
 <?php
 namespace UniSharp\Cart\Models;
 
-use UniSharp\Buyable\Models\Spec;
 use Illuminate\Database\Eloquent\Model;
+use Konekt\Enum\Eloquent\CastsEnums;
+use UniSharp\Buyable\Models\Spec;
 use UniSharp\Cart\Contracts\OrderItemContract;
+use UniSharp\Cart\Contracts\OrderItemStatusContract;
 
 class OrderItem extends Model implements OrderItemContract
 {
-    protected $fillable = ['id', 'name', 'spec', 'sku', 'price', 'order_id', 'quantity', 'spec_id'];
+    use CastsEnums;
+
+    protected $fillable = ['id', 'status', 'name', 'spec', 'sku', 'price', 'order_id', 'quantity', 'spec_id'];
+    protected $enums = [];
+
+    public function __construct(array $attributes = [])
+    {
+        $this->enums = [
+            'status' => get_class(resolve(OrderItemStatusContract::class)),
+        ];
+        return parent::__construct($attributes);
+    }
 
     public function order()
     {

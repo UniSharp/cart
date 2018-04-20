@@ -11,6 +11,7 @@ use UniSharp\Cart\Models\Information;
 use UniSharp\Pricing\Facades\Pricing;
 use UniSharp\Cart\Contracts\OrderContract;
 use UniSharp\Cart\Contracts\OrderStatusContract;
+use UniSharp\Cart\Contracts\OrderItemStatusContract;
 
 class OrderManager
 {
@@ -88,6 +89,7 @@ class OrderManager
     {
         $orderItems = $items->map(function ($item) {
             $orderItem = new OrderItem($item->only('quantity'));
+            $orderItem->status = app(OrderItemStatusContract::class);
             $input = collect($item->spec->getAttributes())
                 ->except('id', 'created_at', 'updated_at', 'stock')
                 ->mapWithKeys(function ($value, $key) {

@@ -5,6 +5,7 @@ use UniSharp\Cart\CartManager;
 use UniSharp\Cart\OrderManager;
 use UniSharp\Cart\Tests\TestCase;
 use UniSharp\Cart\Enums\OrderStatus;
+use UniSharp\Cart\Enums\OrderItemStatus;
 use UniSharp\Pricing\Facades\Pricing;
 use UniSharp\Cart\Tests\Fixtures\Product;
 use UniSharp\Cart\Events\OrderSaved;
@@ -57,6 +58,7 @@ class OrderTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('order_items', $orderItem = [
+            'status' => OrderItemStatus::NORMAL,
             'price' => 20,
             'spec' => 'default',
             'sku' => 'B-1',

@@ -8,6 +8,7 @@ use UniSharp\Cart\Tests\TestCase;
 use UniSharp\Cart\Models\OrderItem;
 use Illuminate\Foundation\Auth\User;
 use UniSharp\Cart\Enums\OrderStatus;
+use UniSharp\Cart\Enums\OrderItemStatus;
 use UniSharp\Cart\Tests\Fixtures\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -58,6 +59,7 @@ class OrderTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('order_items', [
+            'status' => OrderItemStatus::NORMAL,
             'price' => 20,
             'spec' => 'default',
             'sku' => 'B-1',
@@ -126,6 +128,7 @@ class OrderTest extends TestCase
             'status' => OrderStatus::COMPLETED,
             'total_price' => 100,
         ])->items()->save(OrderItem::create([
+            'status' => OrderItemStatus::NORMAL,
             'spec' => 'default',
             'price' => 100
         ]));
@@ -154,11 +157,13 @@ class OrderTest extends TestCase
 
         $order->items()->saveMany([
             $item1 = OrderItem::create([
+                'status' => OrderItemStatus::NORMAL,
                 'spec' => 'default',
                 'quantity' => 1,
                 'price' => 100
             ]),
             $item2 = OrderItem::create([
+                'status' => OrderItemStatus::NORMAL,
                 'spec' => 'default',
                 'quantity' => 2,
                 'price' => 20
@@ -204,6 +209,7 @@ class OrderTest extends TestCase
             'total_price' => 100,
         ]);
         $order->items()->save($item = OrderItem::create([
+            'status' => OrderItemStatus::NORMAL,
             'spec' => 'default',
             'price' => 100
         ]));
@@ -223,6 +229,7 @@ class OrderTest extends TestCase
             'status' => OrderStatus::COMPLETED,
             'total_price' => 100,
         ])->items()->save($item = OrderItem::create([
+            'status' => OrderItemStatus::NORMAL,
             'spec' => 'default',
             'price' => 100
         ]));
@@ -238,6 +245,7 @@ class OrderTest extends TestCase
             'status' => OrderStatus::COMPLETED,
             'total_price' => 100,
         ])->items()->save($item = OrderItem::create([
+            'status' => OrderItemStatus::NORMAL,
             'spec' => 'default',
             'price' => 100
         ]));
