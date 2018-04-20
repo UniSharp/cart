@@ -215,6 +215,31 @@ class CartTest extends TestCase
         ]);
     }
 
+    public function testRejectByWrongUser()
+    {
+        $this->actingAs($user = User::create());
+        $product = Product::create([
+            'name' => 'ProductA',
+            'price' => 50
+        ]);
+
+        $cart = CartManager::make()->add(
+            $product->specs->first()->id,
+            10
+        )->assign($wrongUser = User::create())->save()->getCartInstance();
+
+        $response = $this->putJson("api/v1/carts/{$cart->id}", [
+            'specs' => [
+                [
+                    'id' => $product->specs->first()->id,
+                    'quantity' => 20
+                ]
+            ]
+        ]);
+
+        $response->assertStatus(403);
+    }
+
     public function testRemoveItem()
     {
         $product = Product::create([

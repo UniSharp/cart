@@ -7,7 +7,7 @@ class UpdateCartRequest extends FormRequest
 {
     public function authorize()
     {
-        return true;
+        return $this->cart->user_id ? $this->cart->user_id == auth()->user()->id : true;
     }
 
     public function rules()
