@@ -31,7 +31,7 @@ class OrdersController extends Controller
             $manager->assign(auth()->user());
         }
 
-        return $manager->checkout(
+        $response = $manager->checkout(
             CartManager::make(Cart::findOrFail($request->cart))->getItems(),
             [
                 'buyer' => $request->buyer_information,
@@ -39,6 +39,10 @@ class OrdersController extends Controller
                 'payment' => $request->payment
             ]
         )->getOrderInstance()->load('items', 'receiverInformation', 'buyerInformation');
+
+        Cart::destroy($request->cart);
+
+        return $response;
     }
 
     public function update(OrderContract $order, UpdateOrderRequest $request)
