@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "17b78d0a54d7f8e3fcfe4a992015c917",
+    "content-hash": "9ffc0640797e9e85b933baea565ae620",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -1988,12 +1988,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/UniSharp/unisharp-payment.git",
-                "reference": "245e1b96fbea2e2cfde93ec6fa94ce76c8604f11"
+                "reference": "6f19038db5f70f4c2ad5f28bc1ef08ab4e37b7f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UniSharp/unisharp-payment/zipball/245e1b96fbea2e2cfde93ec6fa94ce76c8604f11",
-                "reference": "245e1b96fbea2e2cfde93ec6fa94ce76c8604f11",
+                "url": "https://api.github.com/repos/UniSharp/unisharp-payment/zipball/6f19038db5f70f4c2ad5f28bc1ef08ab4e37b7f9",
+                "reference": "6f19038db5f70f4c2ad5f28bc1ef08ab4e37b7f9",
                 "shasum": ""
             },
             "require": {
@@ -2033,7 +2033,7 @@
             "keywords": [
                 "UniSharp"
             ],
-            "time": "2018-04-23T06:44:51+00:00"
+            "time": "2018-04-23T10:35:40+00:00"
         },
         {
             "name": "unisharp/pricing",
@@ -4150,8 +4150,8 @@
     "stability-flags": {
         "unisharp/buyable": 20,
         "unisharp/pricing": 20,
-        "unisharp/payment": 20,
-        "voicetube/taiwan-payment-gateway": 20
+        "voicetube/taiwan-payment-gateway": 20,
+        "unisharp/payment": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
