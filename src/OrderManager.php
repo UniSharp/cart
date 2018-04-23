@@ -44,15 +44,15 @@ class OrderManager
         return $this;
     }
 
-    public function checkout(CartItemCollection $items, array $informations = [])
+    public function checkout(CartItemCollection $cart_items, array $informations = [])
     {
         $this->order->status = app(OrderStatusContract::class);
         $this->order->sn = $this->order->sn ?? call_user_func(static::$serialNumberResolver);
-        $this->order->total_price = $this->getPricing($items)->getTotal();
+        $this->order->total_price = $this->getPricing($cart_items)->getTotal();
         $this->order->payment = $informations['payment'];
         $this->order->save();
 
-        $orderItems = $this->saveCartItems($items);
+        $orderItems = $this->saveCartItems($cart_items);
 
         if (array_key_exists('receiver', $informations)) {
             $this->saveReceiverInformation($informations['receiver']);
@@ -62,7 +62,7 @@ class OrderManager
             $this->saveBuyerInformation($informations['buyer']);
         }
 
-        event(new OrderSaved($this->order, $orderItems));
+        event(new OrderSaved($this->order, $orderItems, $cart_items));
 
         return $this;
     }
