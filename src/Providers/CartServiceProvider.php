@@ -1,28 +1,30 @@
 <?php
 namespace UniSharp\Cart\Providers;
 
+use Gateway;
 use UniSharp\Cart\Models\Cart;
 use UniSharp\Cart\Models\Order;
 use UniSharp\Cart\OrderManager;
+use UniSharp\Cart\Enums\Payment;
 use UniSharp\Cart\Models\CartItem;
 use UniSharp\Cart\Models\OrderItem;
 use UniSharp\Cart\Enums\OrderStatus;
-use UniSharp\Cart\Enums\OrderItemStatus;
-use UniSharp\Cart\Enums\PaymentStatus;
-use UniSharp\Cart\Enums\Payment;
 use Illuminate\Support\Facades\Route;
+use UniSharp\Cart\Enums\PaymentStatus;
 use Illuminate\Support\ServiceProvider;
 use UniSharp\Cart\Enums\ShippingStatus;
+use UniSharp\Payment\Factories\Gateway as PaymentGateway;
+use UniSharp\Payment\Factories\Response as PaymentResponse;
+use UniSharp\Cart\Enums\OrderItemStatus;
 use UniSharp\Cart\Contracts\CartContract;
 use UniSharp\Cart\Contracts\OrderContract;
+use UniSharp\Cart\Contracts\PaymentContract;
 use UniSharp\Cart\Contracts\CartItemContract;
 use UniSharp\Cart\Contracts\OrderItemContract;
 use UniSharp\Cart\Contracts\OrderStatusContract;
-use UniSharp\Cart\Contracts\OrderItemStatusContract;
-use UniSharp\Cart\Contracts\ShippingStatusContract;
 use UniSharp\Cart\Contracts\PaymentStatusContract;
-use UniSharp\Cart\Contracts\PaymentContract;
-use VoiceTube\TaiwanPaymentGateway\TaiwanPaymentGateway;
+use UniSharp\Cart\Contracts\ShippingStatusContract;
+use UniSharp\Cart\Contracts\OrderItemStatusContract;
 use VoiceTube\TaiwanPaymentGateway\TaiwanPaymentResponse;
 use VoiceTube\TaiwanPaymentGateway\Common\GatewayInterface;
 use VoiceTube\TaiwanPaymentGateway\Common\ResponseInterface;
@@ -51,11 +53,11 @@ class CartServiceProvider extends ServiceProvider
 
 
         $this->app->bind(GatewayInterface::class, function () {
-            return TaiwanPaymentGateway::create(config('cart.payment.driver', 'SpGateway'), [
+            return PaymentGateway::create(config('cart.payment.driver', 'SpGateway'), [
                 'hashKey'        => config('cart.payment.hashKey'),
                 'hashIV'         => config('cart.payment.hashIV'),
                 'merchantId'     => config('cart.payment.merchantId'),
-                'actionUrl'      => 'https://ccore.spgateway.com/MPG/mpg_gateway',
+                // 'actionUrl'      => 'https://ccore.spgateway.com/MPG/mpg_gateway',
                 'returnUrl'      => route('payment.callback'), // config('cart.payment.returnUrl'),
                 'notifyUrl'      => route('payment.callback'),
                 'clientBackUrl'  => config('cart.payment.clientBackUrl'),
@@ -64,9 +66,10 @@ class CartServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(ResponseInterface::class, function () {
-            return TaiwanPaymentResponse::create(config('cart.payment.driver', 'SpGateway'), [
+            return PaymentResponse::create(config('cart.payment.driver', 'SpGateway'), [
                 'hashKey'        => config('cart.payment.hashKey'),
                 'hashIV'         => config('cart.payment.hashIV'),
+                'merchantId'     => config('cart.payment.merchantId'),
             ]);
         });
 
