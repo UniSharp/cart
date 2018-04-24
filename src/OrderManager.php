@@ -54,11 +54,11 @@ class OrderManager
 
         $orderItems = $this->saveCartItems($items);
 
-        if (array_key_exists('receiver', $informations)) {
+        if (isset($informations['receiver'])) {
             $this->saveReceiverInformation($informations['receiver']);
         }
 
-        if (array_key_exists('buyer', $informations)) {
+        if (isset($informations['buyer'])) {
             $this->saveBuyerInformation($informations['buyer']);
         }
 
