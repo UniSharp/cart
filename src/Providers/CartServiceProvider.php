@@ -57,9 +57,9 @@ class CartServiceProvider extends ServiceProvider
                 'hashKey'        => config('cart.payment.hashKey'),
                 'hashIV'         => config('cart.payment.hashIV'),
                 'merchantId'     => config('cart.payment.merchantId'),
-                // 'actionUrl'      => 'https://ccore.spgateway.com/MPG/mpg_gateway',
-                'returnUrl'      => route('payment.callback'), // config('cart.payment.returnUrl'),
-                'notifyUrl'      => route('payment.callback'),
+                'actionUrl'      => config('cart.payment.actionUrl'),
+                'returnUrl'      => config('returnUrl', route(config('payment.returnRoute'))),
+                'notifyUrl'      => config('notifyUrl', route(config('payment.notifyRoute'))),
                 'clientBackUrl'  => config('cart.payment.clientBackUrl'),
                 'paymentInfoUrl' => config('cart.payment.paymentInfoUrl')
             ]);
@@ -70,6 +70,8 @@ class CartServiceProvider extends ServiceProvider
                 'hashKey'        => config('cart.payment.hashKey'),
                 'hashIV'         => config('cart.payment.hashIV'),
                 'merchantId'     => config('cart.payment.merchantId'),
+                'returnUrl'      => config('returnUrl', route(config('payment.returnRoute'))),
+                'notifyUrl'      => config('notifyUrl', route(config('payment.notifyRoute'))),
             ]);
         });
 

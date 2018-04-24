@@ -105,19 +105,4 @@ class OrdersController extends Controller
         $gateway->{"use{$payment}"}();
         return $gateway->genForm(true);
     }
-
-    public function callback(ResponseInterface $response)
-    {
-        // this library will return false when status not 'Success'
-        $response = $response->processOrder();
-        switch ($response) {
-            case false:
-                get_class(resolve(OrderContract::class))::where('sn', $response['MerchantOrderNo'])
-                    ->update(['payment_status' => PaymentStatus::FAILED]);
-                break;
-            default:
-                get_class(resolve(OrderContract::class))::where('sn', $response['MerchantOrderNo'])
-                    ->update(['payment_status' => PaymentStatus::COMPLETE]);
-        }
-    }
 }
