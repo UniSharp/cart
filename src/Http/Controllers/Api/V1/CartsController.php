@@ -33,7 +33,7 @@ class CartsController extends Controller
         }
 
         $cart->save();
-        return $cart->getCartInstance()->load('items');
+        return $cart->getCartInstance()->load('items.spec.buyable');
     }
 
     public function refresh(RefreshCartRequest $request, CartModel $cart)
