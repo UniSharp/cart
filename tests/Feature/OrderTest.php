@@ -23,10 +23,11 @@ class OrderTest extends TestCase
             'price' => 20,
             'sku' => 'B-1',
             'stock' => 20,
+            'sold_qty' => $origin_qty = 2
         ]);
 
         $spec = $product->specs->first();
-        $cart = CartManager::make()->add($spec, 1)->save();
+        $cart = CartManager::make()->add($spec, $qty = 1)->save();
         OrderManager::setSerialNumberResolver(function () {
             return 'ABC-1';
         });
@@ -58,12 +59,12 @@ class OrderTest extends TestCase
             'sn' => 'ABC-1'
         ]);
 
-        $this->assertDatabaseHas('order_items', $orderItem = [
+        $this->assertDatabaseHas('order_items', $order_item = [
             'status' => OrderItemStatus::NORMAL,
             'price' => 20,
             'spec' => 'default',
             'sku' => 'B-1',
-            'quantity' => 1,
+            'quantity' => $qty,
         ]);
 
         $this->assertDatabaseHas('information', [
@@ -82,9 +83,16 @@ class OrderTest extends TestCase
             'email' => 'fk@example.com'
         ]);
 
-        Event::assertDispatched(OrderSaved::class, function ($e) use ($order, $orderItem) {
+        $this->assertDatabaseHas('specs', [
+            'price' => 20,
+            'sku' => 'B-1',
+            'stock' => 20,
+            'sold_qty' => $origin_qty + $qty
+        ]);
+
+        Event::assertDispatched(OrderSaved::class, function ($e) use ($order, $order_item) {
             $this->assertArraySubset($order, $e->order->toArray());
-            $this->assertArraySubset($orderItem, $e->orderItems->toArray()[0]);
+            $this->assertArraySubset($order_item, $e->orderItems->toArray()[0]);
             return true;
         });
     }

@@ -99,7 +99,7 @@ class OrderManager
             $orderItem = new OrderItem($item->only('quantity'));
             $orderItem->status = app(OrderItemStatusContract::class);
             $input = collect($item->spec->getAttributes())
-                ->except('id', 'created_at', 'updated_at', 'stock')
+                ->except('id', 'created_at', 'updated_at', 'stock', 'sold_qty')
                 ->mapWithKeys(function ($value, $key) {
                     return [$key == 'name' ? 'spec' : $key => $value];
                 })->toArray();
@@ -107,6 +107,10 @@ class OrderManager
             $this->order->items()->save($orderItem);
 
             $orderItem->cart_item = $item;
+
+            $item->spec->update([
+                'sold_qty' => $item->spec->sold_qty + $item->quantity
+            ]);
 
             return $orderItem;
         });

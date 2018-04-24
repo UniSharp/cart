@@ -1925,12 +1925,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/UniSharp/buyable.git",
-                "reference": "6384b37ca91416d31ac635d6f7f92e466a1b4a2c"
+                "reference": "6324c9ff3ea061cb1408512d61003fffbbd18f1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UniSharp/buyable/zipball/6384b37ca91416d31ac635d6f7f92e466a1b4a2c",
-                "reference": "6384b37ca91416d31ac635d6f7f92e466a1b4a2c",
+                "url": "https://api.github.com/repos/UniSharp/buyable/zipball/6324c9ff3ea061cb1408512d61003fffbbd18f1e",
+                "reference": "6324c9ff3ea061cb1408512d61003fffbbd18f1e",
                 "shasum": ""
             },
             "require": {
@@ -1980,7 +1980,7 @@
                 "UniSharp",
                 "category"
             ],
-            "time": "2018-04-16T05:49:08+00:00"
+            "time": "2018-04-24 10:40:49"
         },
         {
             "name": "unisharp/payment",
@@ -2033,7 +2033,7 @@
             "keywords": [
                 "UniSharp"
             ],
-            "time": "2018-04-23T10:35:40+00:00"
+            "time": "2018-04-23 10:35:40"
         },
         {
             "name": "unisharp/pricing",
@@ -2094,7 +2094,7 @@
                 "laravel",
                 "pricing"
             ],
-            "time": "2018-04-12T09:38:24+00:00"
+            "time": "2018-04-12 09:38:24"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -2192,7 +2192,7 @@
                 "gateway",
                 "payment"
             ],
-            "time": "2017-04-17T07:36:27+00:00"
+            "time": "2017-04-17 07:36:27"
         }
     ],
     "packages-dev": [
