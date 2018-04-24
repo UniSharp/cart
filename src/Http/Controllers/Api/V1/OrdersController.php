@@ -20,6 +20,7 @@ class OrdersController extends Controller
     public function index()
     {
         return app(OrderContract::class)
+            ->latest()
             ->with('items', 'receiverInformation', 'buyerInformation')
             ->paginate();
     }
