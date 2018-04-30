@@ -51,15 +51,14 @@ class CartServiceProvider extends ServiceProvider
         $this->app->bind(PaymentStatusContract::class, PaymentStatus::class);
         $this->app->bind(PaymentContract::class, Payment::class);
 
-
         $this->app->bind(GatewayInterface::class, function () {
             return PaymentGateway::create(config('cart.payment.driver', 'SpGateway'), [
                 'hashKey'        => config('cart.payment.hashKey'),
                 'hashIV'         => config('cart.payment.hashIV'),
                 'merchantId'     => config('cart.payment.merchantId'),
                 'actionUrl'      => config('cart.payment.actionUrl'),
-                'returnUrl'      => config('returnUrl', route(config('payment.returnRoute'))),
-                'notifyUrl'      => config('notifyUrl', route(config('payment.notifyRoute'))),
+                'returnUrl'      => config('cart.payment.returnUrl'),
+                'notifyUrl'      => config('cart.payment.notifyUrl'),
                 'clientBackUrl'  => config('cart.payment.clientBackUrl'),
                 'paymentInfoUrl' => config('cart.payment.paymentInfoUrl')
             ]);
@@ -70,8 +69,8 @@ class CartServiceProvider extends ServiceProvider
                 'hashKey'        => config('cart.payment.hashKey'),
                 'hashIV'         => config('cart.payment.hashIV'),
                 'merchantId'     => config('cart.payment.merchantId'),
-                'returnUrl'      => config('returnUrl', route(config('payment.returnRoute'))),
-                'notifyUrl'      => config('notifyUrl', route(config('payment.notifyRoute'))),
+                'returnUrl'      => config('cart.payment.returnUrl'),
+                'notifyUrl'      => config('cart.payment.notifyUrl'),
             ]);
         });
 
