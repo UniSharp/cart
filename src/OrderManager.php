@@ -103,6 +103,7 @@ class OrderManager
                 ->mapWithKeys(function ($value, $key) {
                     return [$key == 'name' ? 'spec' : $key => $value];
                 })->toArray();
+            $input['name'] = $item->spec->buyable->name;
             $orderItem->fill($input);
             $this->order->items()->save($orderItem);
 

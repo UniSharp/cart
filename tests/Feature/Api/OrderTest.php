@@ -60,6 +60,7 @@ class OrderTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('order_items', [
+            'name' => 'Product A',
             'status' => OrderItemStatus::NORMAL,
             'price' => 20,
             'spec' => 'default',
