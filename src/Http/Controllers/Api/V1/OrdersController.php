@@ -56,11 +56,11 @@ class OrdersController extends Controller
             $order->items->where('id', $item['id'])->first()->update($item);
         });
 
-        if ($request->has('receiver_information')) {
+        if (isset($request->receiver_information)) {
             $result = $order->receiverInformation()->update($request->receiver_information);
         }
 
-        if ($request->has('buyer_information')) {
+        if (isset($request->buyer_information)) {
             $order->buyerInformation()->update($request->buyer_information);
         }
 
