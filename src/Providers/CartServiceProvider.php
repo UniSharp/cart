@@ -2,6 +2,7 @@
 namespace UniSharp\Cart\Providers;
 
 use Gateway;
+use UniSharp\Cart\CartManager;
 use UniSharp\Cart\Models\Cart;
 use UniSharp\Cart\Models\Order;
 use UniSharp\Cart\OrderManager;
@@ -38,6 +39,10 @@ class CartServiceProvider extends ServiceProvider
         );
 
         OrderManager::setSerialNumberResolver(function () {
+            return uniqid();
+        });
+
+        CartManager::uuidResolver(function () {
             return uniqid();
         });
 

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 class CartManager
 {
     use CanPricing;
+    protected static $uuidResolver;
     protected $cart;
     protected $items;
 
@@ -28,7 +29,7 @@ class CartManager
 
     public static function make(?CartModel $model = null)
     {
-        return new static($model ?? CartModel::create());
+        return new static($model ?? CartModel::create(['uuid' => call_user_func(static::$uuidResolver)]));
     }
 
     public function assign(User $user)
@@ -124,6 +125,11 @@ class CartManager
     public function getFee()
     {
         return array_sum($this->getPricing($this->items)->getFees());
+    }
+
+    public static function uuidResolver($resolver)
+    {
+        static::$uuidResolver = $resolver;
     }
 
     public static function route(callable $callback = null): void

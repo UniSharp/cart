@@ -13,6 +13,11 @@ class Cart extends Model implements CartContract
         'price', 'fee', 'originalPrice'
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
     public function items()
     {
         return $this->hasMany(get_class(resolve(CartItemContract::class)));
