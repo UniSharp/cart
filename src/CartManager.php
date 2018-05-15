@@ -29,7 +29,9 @@ class CartManager
 
     public static function make(?CartModel $model = null)
     {
-        return new static($model ?? CartModel::create(['uuid' => call_user_func(static::$uuidResolver)]));
+        $id = call_user_func(static::$uuidResolver);
+
+        return new static($model ?? CartModel::create(compact('id')));
     }
 
     public function assign(User $user)

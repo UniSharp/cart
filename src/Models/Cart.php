@@ -9,14 +9,11 @@ use UniSharp\Cart\Contracts\CartItemContract;
 
 class Cart extends Model implements CartContract
 {
+    public $incrementing = false;
+    protected $fillable = ['id'];
     protected $appends = [
         'price', 'fee', 'originalPrice'
     ];
-
-    public function getRouteKeyName()
-    {
-        return 'uuid';
-    }
 
     public function items()
     {

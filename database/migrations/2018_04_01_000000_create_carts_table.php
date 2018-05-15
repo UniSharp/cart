@@ -8,8 +8,7 @@ class CreateCartsTable extends Migration
     public function up()
     {
         Schema::create('carts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('uuid')->unique();
+            $table->string('id')->primary();
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -18,7 +17,7 @@ class CreateCartsTable extends Migration
         Schema::create('cart_items', function (Blueprint $table) {
             $table->unsignedInteger('id');
             $table->unsignedInteger('quantity');
-            $table->unsignedInteger('cart_id');
+            $table->string('cart_id');
 
             $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade');
             $table->foreign('id')->references('id')->on('specs')->onDelete('cascade');

@@ -43,7 +43,11 @@ class CartServiceProvider extends ServiceProvider
         });
 
         CartManager::uuidResolver(function () {
-            return uniqid();
+            do {
+                $id = uniqid();
+            } while (Cart::where('id', $id)->exists());
+
+            return $id;
         });
 
         $this->app->bind(OrderContract::class, Order::class);
