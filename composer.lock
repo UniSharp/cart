@@ -1980,7 +1980,7 @@
                 "UniSharp",
                 "category"
             ],
-            "time": "2018-04-24 10:40:49"
+            "time": "2018-04-24T10:40:49+00:00"
         },
         {
             "name": "unisharp/payment",
@@ -1988,12 +1988,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/UniSharp/unisharp-payment.git",
-                "reference": "6f19038db5f70f4c2ad5f28bc1ef08ab4e37b7f9"
+                "reference": "55432da45a6665531f3346db32e99822d4dd57df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UniSharp/unisharp-payment/zipball/6f19038db5f70f4c2ad5f28bc1ef08ab4e37b7f9",
-                "reference": "6f19038db5f70f4c2ad5f28bc1ef08ab4e37b7f9",
+                "url": "https://api.github.com/repos/UniSharp/unisharp-payment/zipball/55432da45a6665531f3346db32e99822d4dd57df",
+                "reference": "55432da45a6665531f3346db32e99822d4dd57df",
                 "shasum": ""
             },
             "require": {
@@ -2033,7 +2033,7 @@
             "keywords": [
                 "UniSharp"
             ],
-            "time": "2018-04-23 10:35:40"
+            "time": "2018-05-15T09:06:40+00:00"
         },
         {
             "name": "unisharp/pricing",
@@ -2094,7 +2094,7 @@
                 "laravel",
                 "pricing"
             ],
-            "time": "2018-04-12 09:38:24"
+            "time": "2018-04-12T09:38:24+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -2192,7 +2192,7 @@
                 "gateway",
                 "payment"
             ],
-            "time": "2017-04-17 07:36:27"
+            "time": "2017-04-17T07:36:27+00:00"
         }
     ],
     "packages-dev": [
