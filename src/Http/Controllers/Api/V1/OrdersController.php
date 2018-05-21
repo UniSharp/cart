@@ -48,7 +48,7 @@ class OrdersController extends Controller
 
     public function update(OrderContract $order, UpdateOrderRequest $request)
     {
-        $order->update($request->only('status', 'price', 'shipping_status'));
+        $order->update($request->only('status', 'price', 'shipping_status', 'payment_status'));
 
         $diff = collect($order->items->pluck('id'))->diff(collect($request->items)->pluck('id'));
         $order->items->whereIn('id', $diff->toArray())->each->delete();
