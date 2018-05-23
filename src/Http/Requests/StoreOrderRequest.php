@@ -14,14 +14,14 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'cart' => 'exists:carts,id|required',
-            'receiver_information.phone' => 'string',
-            'receiver_information.name' => 'string',
-            'receiver_information.email' => 'email',
-            'receiver_information.address' => 'string',
-            'buyer_information.phone' => 'string',
-            'buyer_information.name' => 'string',
-            'buyer_information.email' => 'email',
-            'buyer_information.address' => 'string',
+            'receiver_information.phone' => 'string|nullable',
+            'receiver_information.name' => 'string|nullable',
+            'receiver_information.email' => 'email|nullable',
+            'receiver_information.address' => 'string|nullable',
+            'buyer_information.phone' => 'string|nullable',
+            'buyer_information.name' => 'string|nullable',
+            'buyer_information.email' => 'email|nullable',
+            'buyer_information.address' => 'string|nullable',
         ];
     }
 }
