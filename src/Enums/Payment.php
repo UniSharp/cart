@@ -10,5 +10,6 @@ class Payment extends Enum implements PaymentContract
     const ATM = 'atm';
     const CVS = 'cvs';
     const BARCODE = 'barcode';
+    const OTHER = 'other';
     const __default = self::CREDIT; 
 }
