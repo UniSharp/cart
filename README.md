@@ -1,12 +1,14 @@
 # UniSharp Cart
 
-let buyable item can add to cart
+Let buyable item can add to cart,
+and make order with cart's items,
+and also provide payment feature.
 
 ## Installation
 
 ```composer require unisharp/cart dev-master```
 
-## Usages
+## Cart Usages
 
 ### Use Api
 
@@ -27,7 +29,7 @@ route lists:
 | POST   | api/v1/carts/{cart}        | Refresh cart and add item(s) to the cart |
 | DELETE | api/v1/carts/{cart}/{item} | Remove a item from the cart              |
 
-### Use Model
+### Use CartManager
 
 Create a new cart
 
@@ -55,10 +57,10 @@ $item = new Item([
 $cart->add($item->id, $item->quantity, $item->extra)->save();
 ```
 
-Get the cart and cart's items
+Get cart's items
 
 ```php
-$cart->getCartInstance()->load('items');
+$cart->getCartInstance()->getItems();
 ```
 
 Remove item from the cart
@@ -67,8 +69,66 @@ Remove item from the cart
 $cart->remove($item)->save();
 ```
 
+Clean cart's items
+
+```php
+$cart->clean();
+```
+
 Destroy the cart
 
 ```php
 $cart->delete();
 ```
+
+## Order Usages
+
+### Use Api
+
+Include router
+
+```php
+OrderManager::route();
+```
+
+route lists:
+
+| Method | Uri                          | Comment                                              |
+|:------:|:----------------------------:|:----------------------------------------------------:|
+| POST   | api/v1/orders                | Create an order                                      |
+| GET    | api/v1/orders                | List all orders                                      |
+| DELETE | api/v1/orders/{order}        | Delete the order                                     |
+| PUT    | api/v1/orders/{order}        | Update the order's status, price and shipping_status |
+| GET    | api/v1/orders/{order}        | Get the order                                        |
+| DELETE | api/v1/orders/{order}/{item} | Remove a item from the order                         |
+| GET    | api/v1/user/me/order-items   | Get current user's orders                            |
+
+### Use OrderManager
+
+Create an order manager
+
+```php
+// Get order manager
+$order = OrderManager::make();
+
+// Assign operator
+$order->assign(auth()->user());
+
+// Checkout cart's items and buyer and receiver's information
+$items = CartManager::make($cart)->getItems();
+$information = [
+    'buyer' => [],
+    'receiver' => [],
+    'payment' => 'credit'
+];
+$order->checkout(items, informations)
+```
+
+Get an exist order
+
+```php
+$order = OrderManager::make($order)->getOrderInstance();
+```
+
+
+
