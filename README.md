@@ -21,7 +21,7 @@ CartManager::route();
 route lists:
 
 | Method | Uri                        | Comment                                  |
-|:------:|:--------------------------:|:----------------------------------------:|
+|:-------|:---------------------------|:-----------------------------------------|
 | POST   | api/v1/carts               | Create the cart                          |
 | DELETE | api/v1/carts/{cart}        | Delete the cart and cart's items         |
 | GET    | api/v1/carts/{cart}        | Get the cart and cart's items            |
@@ -94,7 +94,7 @@ OrderManager::route();
 route lists:
 
 | Method | Uri                          | Comment                                              |
-|:------:|:----------------------------:|:----------------------------------------------------:|
+|:-------|:-----------------------------|:-----------------------------------------------------|
 | POST   | api/v1/orders                | Create an order                                      |
 | GET    | api/v1/orders                | List all orders                                      |
 | DELETE | api/v1/orders/{order}        | Delete the order                                     |
@@ -130,5 +130,62 @@ Get an exist order
 $order = OrderManager::make($order)->getOrderInstance();
 ```
 
+# Pricing Usage
+
+Both of CartManager and OrderManager already have trait
+
+```php
+class CartManager
+{
+    use CanPricing;
+    ...
+}
+```
+
+Customize pricing module
+
+```php
+<?php
+use UniSharp\Pricing\Pricing;
+use UniSharp\Pricing\ModuleContract;
+
+class CustomPricingModule implements ModuleContract
+{
+    public function handle(Pricing $pricing, Closure $next)
+    {
+        ...
+        return $next($pricing);
+    }
+
+    public function finish(Pricing $pricing)
+    {
+        ...
+    }
+}
+```
+
+Set Custom pricing module in `config/pricing.php`
+
+```php
+<?php
+return [
+    'modules' => [
+        CustomPricingModule::class
+    ]
+];
+```
+
+Get pricing
+
+```php
+// get original price
+$cart->getOriginalPrice();
+
+// get total price
+$cart->getPrice();
+
+// get fee
+$cart->getFee();
+```
 
 
