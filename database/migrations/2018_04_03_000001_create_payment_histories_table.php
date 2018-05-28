@@ -10,6 +10,7 @@ class CreatePaymentHistoriesTable extends Migration
         Schema::create('payment_histories', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('order_id');
+            $table->string('payment')->default('other');
             $table->decimal('price')->default(0);
             $table->string('comment')->nullable();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');

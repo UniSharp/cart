@@ -7,11 +7,12 @@ use Konekt\Enum\Eloquent\CastsEnums;
 use UniSharp\Cart\Models\Information;
 use Illuminate\Database\Eloquent\Model;
 use UniSharp\Cart\Contracts\OrderContract;
+use UniSharp\Cart\Contracts\PaymentContract;
 use UniSharp\Cart\Contracts\OrderItemContract;
 use UniSharp\Cart\Contracts\OrderStatusContract;
-use UniSharp\Cart\Contracts\ShippingStatusContract;
 use UniSharp\Cart\Contracts\PaymentStatusContract;
-use UniSharp\Cart\Contracts\PaymentContract;
+use UniSharp\Cart\Models\PaymentHistory;
+use UniSharp\Cart\Contracts\ShippingStatusContract;
 
 class Order extends Model implements OrderContract
 {
@@ -55,5 +56,10 @@ class Order extends Model implements OrderContract
     public function getNameAttribute()
     {
         return implode(' ,', $this->items->pluck('name')->toArray());
+    }
+
+    public function paymentHistories()
+    {
+        return $this->hasMany(PaymentHistory::class);
     }
 }

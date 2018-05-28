@@ -81,6 +81,7 @@ class OrderManager
 
             Route::get('/', $namespace . 'OrdersController@index');
             Route::post('/', $namespace . 'OrdersController@store');
+            Route::post('/{order}/payment-histories', $namespace . 'OrdersController@addPaymentHistory');
             Route::put('/{order}', $namespace . 'OrdersController@update');
             Route::get('/{order}', $namespace . 'OrdersController@show');
             Route::get('/{order}/pay', $namespace . 'OrdersController@pay');

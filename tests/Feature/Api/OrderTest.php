@@ -269,4 +269,27 @@ class OrderTest extends TestCase
             'status' => OrderItemStatus::CANCELED,
         ]);
     }
+
+    public function testUpdatePaymentHistory()
+    {
+        $order = Order::create([
+            'sn' => 'ABC-1',
+            'payment' => 'credit',
+            'status' => OrderStatus::COMPLETED,
+            'total_price' => 100,
+        ]);
+
+        $response = $this->post("/api/v1/orders/{$order->id}/payment-histories", [
+            'price' => 300,
+            'payment' => 'other',
+            'comment' => 'nothing'
+        ]);
+
+        $this->assertDatabaseHas('payment_histories', [
+            'order_id' => $order->id,
+            'price' => 300,
+            'payment' => 'other',
+            'comment' => 'nothing'
+        ]);
+    }
 }

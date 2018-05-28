@@ -6,6 +6,7 @@ use UniSharp\Cart\Models\Cart;
 use UniSharp\Cart\OrderManager;
 use Illuminate\Routing\Controller;
 use UniSharp\Cart\Enums\PaymentStatus;
+use UniSharp\Cart\Models\PaymentHistory;
 use UniSharp\Cart\Contracts\OrderContract;
 use UniSharp\Cart\Contracts\OrderItemContract;
 use UniSharp\Cart\Http\Requests\StoreOrderRequest;
@@ -104,5 +105,13 @@ class OrdersController extends Controller
         $payment = studly_case($order->payment->value());
         $gateway->{"use{$payment}"}();
         return $gateway->genForm(true);
+    }
+
+    public function addPaymentHistory(OrderContract $order)
+    {
+        $order->paymentHistories()->create(request()->input());
+        return [
+            'success' => true
+        ];
     }
 }
