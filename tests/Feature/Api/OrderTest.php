@@ -224,7 +224,7 @@ class OrderTest extends TestCase
         $response = $this->get("/api/v1/orders/{$order->id}");
         $response->assertSuccessful();
         $this->assertEquals(
-            $order->refresh()->load('items', 'receiverInformation', 'buyerInformation')->toArray(),
+            $order->refresh()->load('items', 'receiverInformation', 'buyerInformation', 'paymentHistories')->toArray(),
             $response->json()
         );
     }

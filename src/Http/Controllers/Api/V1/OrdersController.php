@@ -78,7 +78,7 @@ class OrdersController extends Controller
 
     public function show(OrderContract $order)
     {
-        return $order->load('items', 'receiverInformation', 'buyerInformation');
+        return $order->load('items', 'receiverInformation', 'buyerInformation', 'paymentHistories');
     }
 
     public function delete(OrderContract $order, $item)
