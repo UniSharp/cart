@@ -76,6 +76,7 @@ class OrderManager
     {
         $namespace = '\\UniSharp\\Cart\\Http\\Controllers\\Api\\V1\\';
         Route::post('/payment/callback', $namespace . 'OrdersController@callback')->name('payment.callback');
+        Route::get('/payments', $namespace . 'PaymentsController@index');
         Route::prefix('orders')->group(function () use ($callback) {
             $namespace = '\\UniSharp\\Cart\\Http\\Controllers\\Api\\V1\\';
 
@@ -87,6 +88,7 @@ class OrderManager
             Route::get('/{order}/pay', $namespace . 'OrdersController@pay');
             Route::delete('/{order}/{item}', $namespace . 'OrdersController@delete');
             Route::delete('/{order}/', $namespace . 'OrdersController@destroy');
+
 
             if ($callback) {
                 $callback();
