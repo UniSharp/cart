@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->text('note')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('order_items', function (Blueprint $table) {
@@ -34,6 +35,7 @@ class CreateOrdersTable extends Migration
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('spec_id')->references('id')->on('specs');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

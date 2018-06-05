@@ -23,7 +23,8 @@
         "unisharp/buyable": "dev-master",
         "unisharp/pricing": "dev-master",
         "voicetube/taiwan-payment-gateway": "dev-master",
-        "unisharp/payment": "dev-master"
+        "unisharp/payment": "dev-master",
+        "askedio/laravel-soft-cascade": ">5.5.0"
     },
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.6.0",

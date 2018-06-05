@@ -13,14 +13,20 @@ use UniSharp\Cart\Contracts\OrderStatusContract;
 use UniSharp\Cart\Contracts\PaymentStatusContract;
 use UniSharp\Cart\Models\PaymentHistory;
 use UniSharp\Cart\Contracts\ShippingStatusContract;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
 class Order extends Model implements OrderContract
 {
+    use SoftDeletes;
     use CastsEnums;
+    use SoftCascadeTrait;
 
     protected $fillable = ['status', 'sn', 'total_price', 'shipping_status', 'payment', 'payment_status'];
 
     protected $enums = [];
+
+    protected $softCascade = ['items', 'buyerInformation', 'receiverInformation'];
 
     public function __construct(array $attributes = [])
     {

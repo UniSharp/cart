@@ -200,7 +200,7 @@ class OrderTest extends TestCase
             'quantity' => 2
         ]);
 
-        $this->assertDatabaseMissing('order_items', [
+        $this->assertSoftDeleted('order_items', [
             'id' => $item2->id
         ]);
 
@@ -243,7 +243,7 @@ class OrderTest extends TestCase
         ]));
 
         $response = $this->delete("/api/v1/orders/{$order->id}");
-        $this->assertDatabaseMissing('orders', ['id'  => $order->id]);
+        $this->assertSoftDeleted('orders', ['id'  => $order->id]);
     }
 
     public function testDeleteOrderItem()

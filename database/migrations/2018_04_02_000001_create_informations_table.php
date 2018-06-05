@@ -17,6 +17,7 @@ class CreateInformationsTable extends Migration
             $table->enum('type', ['receiver', 'buyer']);
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
