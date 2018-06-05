@@ -69,7 +69,7 @@ class CartTest extends TestCase
             ]
         ]);
 
-        $this->assertDatabaseMissing('cart_items', [
+        $this->assertSoftDeleted('cart_items', [
             'cart_id' => $cart->id,
             'id' => $product->specs->first()->id,
         ]);
@@ -258,7 +258,7 @@ class CartTest extends TestCase
         ]);
         $response = $this->delete("api/v1/carts/{$cart->id}/{$product->specs->first()->id}");
         $response->assertSuccessful();
-        $this->assertDatabaseMissing('cart_items', [
+        $this->assertSoftDeleted('cart_items', [
             'cart_id' => $cart->id,
             'id' => $product->specs->first()->id
         ]);
@@ -283,8 +283,12 @@ class CartTest extends TestCase
 
         $response = $this->delete("api/v1/carts/{$cart->id}");
         $response->assertSuccessful();
-        $this->assertDatabaseMissing('carts', [
+        $this->assertSoftDeleted('carts', [
             'id' => $cart->id,
+        ]);
+        
+        $this->assertSoftDeleted('cart_items', [
+            'cart_id' => $cart->id,
         ]);
     }
 }

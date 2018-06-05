@@ -14,6 +14,7 @@ class CreatePaymentHistoriesTable extends Migration
             $table->decimal('price')->default(0);
             $table->string('comment')->nullable();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
