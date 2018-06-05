@@ -8,6 +8,7 @@ use UniSharp\Pricing\PricingServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use UniSharp\Cart\Providers\CartServiceProvider;
 use UniSharp\Buyable\Providers\BuyableServiceProvider;
+use Askedio\SoftCascade\Providers\GenericServiceProvider;
 use UniSharp\Cart\Tests\Fixtures\Providers\TestingServiceProvider;
 
 abstract class TestCase extends Orchestra
@@ -33,6 +34,7 @@ abstract class TestCase extends Orchestra
             PricingServiceProvider::class,
             BuyableServiceProvider::class,
             CartServiceProvider::class,
+            GenericServiceProvider::class,
             TestingServiceProvider::class,
         ];
     }

@@ -2,14 +2,17 @@
 namespace UniSharp\Cart\Tests\Feature;
 
 use UniSharp\Cart\CartManager;
+use UniSharp\Cart\Models\Order;
 use UniSharp\Cart\OrderManager;
+use UniSharp\Cart\Enums\Payment;
 use UniSharp\Cart\Tests\TestCase;
+use UniSharp\Cart\Models\OrderItem;
 use UniSharp\Cart\Enums\OrderStatus;
-use UniSharp\Cart\Enums\OrderItemStatus;
-use UniSharp\Pricing\Facades\Pricing;
-use UniSharp\Cart\Tests\Fixtures\Product;
 use UniSharp\Cart\Events\OrderSaved;
 use Illuminate\Support\Facades\Event;
+use UniSharp\Pricing\Facades\Pricing;
+use UniSharp\Cart\Enums\OrderItemStatus;
+use UniSharp\Cart\Tests\Fixtures\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderTest extends TestCase
@@ -95,5 +98,42 @@ class OrderTest extends TestCase
             $this->assertArraySubset($order_item, $e->orderItems->toArray()[0]);
             return true;
         });
+    }
+
+    public function testDelete()
+    {
+        $order = Order::create([
+            'payment' => Payment::CREDIT,
+            'status' => OrderStatus::PENDDING,
+            'total_price' => 100,
+            'sn' => 'ABC-1'
+        ]);
+
+        $order->items()->save($orderItem = OrderItem::create([
+            'status' => OrderItemStatus::NORMAL,
+            'price' => 20,
+            'spec' => 'default',
+            'sku' => 'B-1',
+            'quantity' => 10,
+        ]));
+
+        $order->delete();
+
+        $this->assertSoftDeleted('orders', [
+            'id' => $order->id,
+            'payment' => Payment::CREDIT,
+            'status' => OrderStatus::PENDDING,
+            'total_price' => 100,
+            'sn' => 'ABC-1'
+        ]);
+
+        $this->assertSoftDeleted('order_items', [
+            'id' => $orderItem->id,
+            'status' => OrderItemStatus::NORMAL,
+            'price' => 20,
+            'spec' => 'default',
+            'sku' => 'B-1',
+            'quantity' => 10,
+        ]);
     }
 }
