@@ -75,7 +75,6 @@ class OrderManager
     public static function route(callable $callback = null): void
     {
         $namespace = '\\UniSharp\\Cart\\Http\\Controllers\\Api\\V1\\';
-        Route::post('/payment/callback', $namespace . 'OrdersController@callback')->name('payment.callback');
         Route::get('/payments', $namespace . 'PaymentsController@index');
         Route::prefix('orders')->group(function () use ($callback) {
             $namespace = '\\UniSharp\\Cart\\Http\\Controllers\\Api\\V1\\';
