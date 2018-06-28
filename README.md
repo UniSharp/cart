@@ -1,5 +1,12 @@
 # UniSharp Cart
 
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE.md)
+[![Build Status][ico-travis]][link-travis]
+[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
+[![Quality Score][ico-code-quality]][link-code-quality]
+[![Total Downloads][ico-downloads]][link-downloads]
+
 Let buyable item can add to cart,
 and make order with cart's items,
 and also provide payment feature.
@@ -243,3 +250,18 @@ Route::group(['prefix' => 'v1/payment'], function () {
 | GET    | api/v1/payment/notify        | Notify url              |
 | GET    | api/v1/payment/return        | Client back url         |
 | GET    | api/v1/payment/information   | Payment Information url |
+
+[ico-version]: https://img.shields.io/packagist/v/UniSharp/cart.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/UniSharp/cart/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/UniSharp/cart.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/UniSharp/cart.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/UniSharp/cart.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/unisharp/cart
+[link-travis]: https://travis-ci.org/UniSharp/cart
+[link-scrutinizer]: https://scrutinizer-ci.com/g/UniSharp/cart/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/UniSharp/cart
+[link-downloads]: https://packagist.org/packages/UniSharp/cart
+[link-author]: https://github.com/UniSharp
+[link-contributors]: ../../contributors
