@@ -57,7 +57,7 @@ class OrderTest extends TestCase
 
         $this->assertDatabaseHas('orders', $order = [
             'id' => $manager->getOrderInstance()->id,
-            'status' => OrderStatus::PENDDING,
+            'status' => OrderStatus::PENDING,
             'total_price' => 100,
             'sn' => 'ABC-1'
         ]);
@@ -104,7 +104,7 @@ class OrderTest extends TestCase
     {
         $order = Order::create([
             'payment' => Payment::CREDIT,
-            'status' => OrderStatus::PENDDING,
+            'status' => OrderStatus::PENDING,
             'total_price' => 100,
             'sn' => 'ABC-1'
         ]);
@@ -122,7 +122,7 @@ class OrderTest extends TestCase
         $this->assertSoftDeleted('orders', [
             'id' => $order->id,
             'payment' => Payment::CREDIT,
-            'status' => OrderStatus::PENDDING,
+            'status' => OrderStatus::PENDING,
             'total_price' => 100,
             'sn' => 'ABC-1'
         ]);

@@ -54,7 +54,7 @@ class OrderTest extends TestCase
 
         $this->assertDatabaseHas('orders', [
             'id' => $response->json()['id'],
-            'status' => OrderStatus::PENDDING,
+            'status' => OrderStatus::PENDING,
             'total_price' => 20,
             'sn' => 'ABC-1'
         ]);
