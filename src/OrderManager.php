@@ -106,6 +106,7 @@ class OrderManager
                     return [$key == 'name' ? 'spec' : $key => $value];
                 })->toArray();
             $input['name'] = $item->spec->buyable->name;
+            $input['spec_id'] = $item->spec->id;
             $orderItem->fill($input);
             $this->order->items()->save($orderItem);
 
