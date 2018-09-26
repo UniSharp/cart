@@ -8,7 +8,7 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->unsignedInteger('status');
+            $table->unsignedInteger('status')->default(0);
             $table->unsignedInteger('shipping_status')->default(0);
             $table->tinyInteger('payment_status')->default(0);
             $table->string('payment');
